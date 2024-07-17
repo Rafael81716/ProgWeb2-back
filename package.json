@@ -4,13 +4,30 @@
   "description": "O projeto estará se tratando da ideia de fazer uma ficha de TTRPG de Dungeons and Dragons para ajudar jogadores no acompanhamento da sua evolução no decorrer de uma campanha.\r ################################\r O foco do projeto é ser algo mais simples, sem muitas automações e bem próximo do que acontece quando se usa uma folha de papel como ficha do seu personagem.\r ################################\r Segue link para modelagem de classe inicial do projeto: https://lucid.app/lucidchart/628becc2-9762-4b20-bab4-a11e04c29dcf/edit?viewport_loc=-237%2C-43%2C3006%2C1458%2CHWEp-vi-RSFO&invitationId=inv_33709884-23db-4fb9-851d-d0ad4a7e10d1",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server.js"
+    "build": "tsc",
+    "start": "node dist/server.js",
+    "dev": "ts-node src/server.ts"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
     "express": "^4.19.2"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.21",
+    "@types/node": "^20.14.11",
+    "@typescript-eslint/eslint-plugin": "^7.16.1",
+    "@typescript-eslint/parser": "^7.16.1",
+    "eslint": "^8.57.0",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-prettier": "^5.2.1",
+    "gulp": "^5.0.0",
+    "gulp-nodemon": "^2.5.0",
+    "gulp-tslint": "^8.1.4",
+    "gulp-typescript": "^6.0.0-alpha.1",
+    "prettier": "^3.3.3",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.5.3"
   }
 }
