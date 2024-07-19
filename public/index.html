@@ -3,6 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <title>Document</title>
+    <script>
+        (async () => {
+            const characters = await fetch("http://localhost:3000/characters/1");
+            const teste = await characters.json(); 
+            console.log(characters.toString());
+        })()
+    </script>
 </head>
 <body>
     <div class="content">
