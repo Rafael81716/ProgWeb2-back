@@ -82,7 +82,7 @@ app.put('/characters/:id', (req: Request, res: Response) => {
     if (!HP) {
       return res.status(400).send('HP is required');
     }
-    characters[index] = { id: index, name, classType, level, HP};
+    characters[index] = { id: parseInt(req.params.id), name, classType, level, HP};
     res.json(characters[index]);
   } else {
     res.status(404).send('Character not found');
