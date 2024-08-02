@@ -12,3 +12,117 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+model Item{
+  id Int @id @default (autoincrement())
+  name String
+  quantity Int
+  description String
+  characterId Int
+  character Character @relation(fields: [characterId], references: [id])
+}
+
+model Weapon{
+  id Int @id @default (autoincrement())
+  name String
+  attackBonus String
+  damageDie String
+  characterId Int
+  character Character @relation(fields: [characterId], references: [id])
+}
+
+model Spell{
+  id Int @id @default (autoincrement())
+  name String
+  effect String
+  characterId Int
+  character Character @relation(fields: [characterId], references: [id])
+}
+
+model SavingThrows{
+  id Int @id @default (autoincrement())
+  strengthMod Int
+  dexterityMod Int
+  constituitionMod Int
+  wisdomMod Int
+  intelligenceMod Int
+  charismaMod Int
+  attribute Attributes?
+}
+
+model AbilityCheck{
+  id Int @id @default (autoincrement())
+  acrobatics Int
+  animalHandling Int
+  arcana Int
+  athletics Int
+  deception Int
+  history Int
+  insight Int
+  intidimation Int
+  investigation Int
+  medicine Int
+  nature Int
+  perception Int
+  perfomance Int
+  persuasion Int
+  religion Int
+  sleightOfHand Int
+  stealth Int
+  survival Int
+  attribute Attributes?
+}
+
+model Attributes{
+  id Int @id @default (autoincrement())
+  strengthValue Int
+  strenghMod Int
+  dexterityValue Int
+  dexterityMod Int
+  constitutionValue Int
+  constitutionMod Int
+  wisdomValue Int
+  wisdomMod Int
+  intelligenceValue Int
+  intelligenceMod Int
+  charismaValue Int
+  charismaMod Int
+  savingThrowId Int @unique
+  abilityCheckId Int @unique
+  savingThrows SavingThrows @relation(fields: [savingThrowId], references: [id])
+  abilityCheck AbilityCheck @relation(fields: [abilityCheckId], references: [id])
+  character Character?
+}
+
+model Character{
+  id Int @id @default (autoincrement())
+  name String
+  class String
+  level Int
+  background String
+  race String
+  attributeId Int @unique
+  attributes Attributes @relation(fields: [attributeId], references: [id])
+  armorClass Int
+  initiative Int
+  failCounter Int
+  successCounter Int
+  speed Int
+  hitPoints Int
+  weapons Weapon[]
+  inventory Item[]
+  spellCasting Spell[]
+  history String
+  notes String
+  //Photo: IMG
+  userId Int
+  user User @relation(fields: [userId], references: [id])
+}
+
+model User{
+  id Int @id @default (autoincrement())
+  email String @unique
+  password String
+  username String
+  characters Character[]
+}
