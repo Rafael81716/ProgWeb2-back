@@ -105,15 +105,15 @@ model Character{
   attributes Attributes @relation(fields: [attributeId], references: [id])
   armorClass Int
   initiative Int
-  failCounter Int
-  successCounter Int
+  failCounter Int? @default(0)
+  successCounter Int? @default(0)
   speed Int
   hitPoints Int
   weapons Weapon[]
   inventory Item[]
   spellCasting Spell[]
-  history String
-  notes String
+  history String?
+  notes String?
   //Photo: IMG
   userId Int
   user User @relation(fields: [userId], references: [id])
@@ -124,5 +124,5 @@ model User{
   email String @unique
   password String
   username String
-  characters Character[]
+  characters Character[] 
 }
