@@ -1,35 +1,27 @@
 import express, { Request, Response, request } from 'express';
 import path from 'path';
+import { CreateUserController } from './controllers/user/CreateUserController';
+import { CreateCharacterController } from './controllers/character/CreateCharacterController';
 
 
 const app = express();
 const port = 3000;
-let characters = [
-  {
-    id: 1,
-    name: 'John Doe',
-    classType: 'Fighter',
-    level: 1,
-    HP: 20
-  }, {
-    id: 2,
-    name: 'Mariano Doe',
-    classType: 'Paladin',
-    level: 5,
-    HP: 50
-  },
-  {
-    id: 3,
-    name: 'Jonas Doe',
-    classType: 'wizard',
-    level: 10,
-    HP: 90
-  }
-]
-let currentId = 4;
-
 app.use(express.json());
 
+const createUser = new CreateUserController();
+const createCharacter = new CreateCharacterController();
+
+app.post('/user', createUser.handle);
+app.post('/character/:id', createCharacter.handle);
+
+app.listen(port, () => {
+  console.log(`Servidor rodando em http://localhost:${port}`);
+});
+
+
+
+
+/*
 app.get('/index', (req: Request, res: Response) => {
   res.sendFile(path.join(__dirname, '..', 'public/index.html'));
 })
@@ -112,12 +104,4 @@ app.patch('/characters/:id/HitPoints', (req: Request, res: Response) => {
     res.status(404).send('Character not found');
   }
 });
-
-app.listen(port, () => {
-  console.log(`Servidor rodando em http://localhost:${port}`);
-});
-
-
-
-
-
+*/

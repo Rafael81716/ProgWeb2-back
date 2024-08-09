@@ -47,7 +47,7 @@ model SavingThrows{
   wisdomMod Int
   intelligenceMod Int
   charismaMod Int
-  attribute Attributes?
+  character Character?
 }
 
 model AbilityCheck{
@@ -70,7 +70,7 @@ model AbilityCheck{
   sleightOfHand Int
   stealth Int
   survival Int
-  attribute Attributes?
+  character Character?
 }
 
 model Attributes{
@@ -86,11 +86,7 @@ model Attributes{
   intelligenceValue Int
   intelligenceMod Int
   charismaValue Int
-  charismaMod Int
-  savingThrowId Int @unique
-  abilityCheckId Int @unique
-  savingThrows SavingThrows @relation(fields: [savingThrowId], references: [id])
-  abilityCheck AbilityCheck @relation(fields: [abilityCheckId], references: [id])
+  charismaMod Int  
   character Character?
 }
 
@@ -102,7 +98,11 @@ model Character{
   background String
   race String
   attributeId Int @unique
+  savingThrowId Int @unique
+  abilityCheckId Int @unique
   attributes Attributes @relation(fields: [attributeId], references: [id])
+  savingThrows SavingThrows @relation(fields: [savingThrowId], references: [id])
+  abilityCheck AbilityCheck @relation(fields: [abilityCheckId], references: [id])
   armorClass Int
   initiative Int
   failCounter Int? @default(0)

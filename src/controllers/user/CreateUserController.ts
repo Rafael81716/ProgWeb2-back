@@ -1,7 +1,7 @@
 import { Request, Response } from 'express'
 import { PrismaClient } from '@prisma/client'
 
-export class CreateBookController {
+export class CreateUserController {
     async handle(request: Request, response: Response){
 
         const { email, password, username } = request.body

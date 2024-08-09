@@ -1,7 +1,7 @@
 import { Request, Response } from 'express'
 import { PrismaClient } from '@prisma/client'
 
-export class CreateBookController {
+export class CreateCharacterController {
     async handle(request: Request, response: Response){
 
         const { 
@@ -10,7 +10,6 @@ export class CreateBookController {
             level,
             background,
             race,
-            attributeId,
             attributes,
             armorClass,
             initiative,
@@ -22,36 +21,22 @@ export class CreateBookController {
             inventory,
             spellCasting,
             history,
-            notes
+            notes,
+            abilityCheck,
+            savingThrows
         } = request.body
 
-        const { userId } = request.params
+        const { id } = request.params
 
         const prismaClient = new PrismaClient()
 
         try{
             const user = await prismaClient.user.findUnique({
-                where: { id: Number(userId) },
-                include: {
-                    characters: {
-                        include: {
-                            attributes: {
-                                include: {
-                                    abilityCheck: true,
-                                    savingThrows: true,
-                                }
-                            }, 
-                            inventory: true,
-                            spellCasting: true,
-                            weapons: true,
-                            user: true
-                        }
-                    }
-                }
+                where: { id: Number(id) }
             })
             if(user !== null){
                 const user =  await prismaClient.user.update({
-                    where: { id: Number(userId) },
+                    where: { id: Number(id) },
                     data: {
                         characters: {
                             create : {
@@ -60,26 +45,43 @@ export class CreateBookController {
                                 level,
                                 background,
                                 race,
-                                attributeId,
-                                attributes,
+                                attributes: {
+                                    create: attributes
+                                },
                                 armorClass,
                                 initiative,
                                 failCounter,
                                 successCounter,
                                 speed,
                                 hitPoints,
-                                weapons,
-                                inventory,
-                                spellCasting,
+                                weapons: {
+                                    create: weapons
+                                },
+                                inventory: {
+                                    create: inventory
+                                },
+                                spellCasting: {
+                                    create: spellCasting
+                                },
                                 history,
-                                notes
+                                notes,
+                                abilityCheck: {
+                                    create: abilityCheck
+                                },
+                                savingThrows: {
+                                    create: savingThrows
+                                }
                             }
                         },
                     }
                 });
+                
+                return response.status(200).json(user)
+            }else{
+                return response.status(404)
             }
 
-            return response.status(200).json(user)
+            
         }catch(error){
             console.error('Error creating User: ', error);
             return response.status(500).json({ error: "An error has ocurred while fetching the user." });
