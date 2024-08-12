@@ -35,50 +35,47 @@ export class CreateCharacterController {
                 where: { id: Number(userId) }
             })
             if(user !== null){
-                const user =  await prismaClient.user.update({
-                    where: { id: Number(userId) },
+                const character =  await prismaClient.character.update({
+                    where: { id: Number(characterId), userId: Number(userId) },
+                    include: {
+                        user: false
+                    },
                     data: {
-                        characters: {
-                            update : {
-                                data: {
-                                    name,
-                                    class: charClass,
-                                    level,
-                                    background,
-                                    race,
-                                    attributes: {
-                                        create: attributes
-                                    },
-                                    armorClass,
-                                    initiative,
-                                    failCounter,
-                                    successCounter,
-                                    speed,
-                                    hitPoints,
-                                    weapons: {
-                                        create: weapons
-                                    },
-                                    inventory: {
-                                        create: inventory
-                                    },
-                                    spellCasting: {
-                                        create: spellCasting
-                                    },
-                                    history,
-                                    notes,
-                                    abilityCheck: {
-                                        create: abilityCheck
-                                    },
-                                    savingThrows: {
-                                        create: savingThrows
-                                    }, 
-                                }
-                            }
+                        name,
+                        class: charClass,
+                        level,
+                        background,
+                        race,
+                        attributes: {
+                            update: attributes
                         },
+                        armorClass,
+                        initiative,
+                        failCounter,
+                        successCounter,
+                        speed,
+                        hitPoints,
+                        weapons: {
+                            update: weapons
+                        },
+                        inventory: {
+                            update: inventory
+                        },
+                        spellCasting: {
+                            create: spellCasting
+                        },
+                        history,
+                        notes,
+                        abilityCheck: {
+                            update: abilityCheck
+                        },
+                        savingThrows: {
+                            update: savingThrows
+                        }
                     }
                 });
                 
-                return response.status(200).json(user)
+                return response.status(200).json(character)
             }else{
                 return response.status(404)
             }
