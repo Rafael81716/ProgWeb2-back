@@ -1,7 +1,7 @@
 import { Request, Response } from 'express'
 import { CharacterService } from '../services/CharacterService';
 
-export class characterController {
+export class CharacterController {
     characterService = new CharacterService();
 
     async createCharacter(request: Request, response: Response){
