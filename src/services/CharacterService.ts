@@ -79,22 +79,32 @@ export class CharacterService {
         }
     }
     async getOneCharacter(userId: Number, characterId: Number){
+        function containChar(char: any) {
+            return Number(char.id) == Number(characterId)
+        }
+
         const user = await this.prismaClient.user.findUnique({
             where: { id: Number(userId) },
             include: {
                 characters: true
             }
         })
-
         if (!user) {
             return null;
         }
-        if (!user?.characters[(Number(characterId) - 1)]) {
+        if (!user?.characters.some(containChar)) {
             return null;
         }
         
-
-        return user?.characters[(Number(characterId) - 1)]
+        return user?.characters.filter(containChar)
+    }
+    async getAllCharacters(userId: Number){ //Consertar isso
+        const user = await this.userService.getOneUser(Number(userId));
+        if(user !== null){
+            return user?.characters
+        }else{
+            return null;
+        }
     }
     async deleteCharacter(userId: Number, characterId: Number){
         const character = this.getOneCharacter(userId, characterId);
@@ -112,21 +122,7 @@ export class CharacterService {
             return null;
         }
     }
-    async getAllCharacters(userId: Number){
-        const user = this.userService.getOneUser(userId);
-        if(user !== null){
-            const user = await this.prismaClient.user.findUnique({
-                where: { id: Number(userId) },
-                include: {
-                    characters: true
-                }
-            })
-            return user?.characters
-        }else{
-            return null;
-        }
-    }
-    async updateCharacter(body: any, userId: Number, characterId: Number){
+    async updateCharacter(body: any, userId: Number, characterId: Number){ //consertar isso
         const { 
             name,
             charClass,
@@ -196,13 +192,14 @@ export class CharacterService {
             return null;
         }
     }
-    async GetAllCharactersFromAllUsers(){
+    async GetAllCharactersFromAllUsers(){//Consertar isso
         const users = await this.prismaClient.user.findMany({
             include: {
                 characters: true
             }
         })
         const allCharacters = users.forEach((user) => {user.characters})
+        console.log(allCharacters)
         return allCharacters;
     }
     

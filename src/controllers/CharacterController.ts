@@ -2,13 +2,14 @@ import { Request, Response } from 'express'
 import { CharacterService } from '../services/CharacterService';
 
 export class CharacterController {
-    characterService = new CharacterService();
+    
 
     async createCharacter(request: Request, response: Response){
         const { id } = request.params;
 
         try{
-            const responseOutput =  this.characterService.createCharacter(request.body, Number(id))
+            const characterService = new CharacterService();
+            const responseOutput = await characterService.createCharacter(request.body, Number(id))
             
             if(responseOutput != null){
                 return response.status(201).json(responseOutput);
@@ -24,7 +25,8 @@ export class CharacterController {
         const { userId, characterId } = request.params;
 
         try{
-            const responseOutput =  this.characterService.deleteCharacter(Number(userId), Number(characterId))
+            const characterService = new CharacterService();
+            const responseOutput = await characterService.deleteCharacter(Number(userId), Number(characterId))
             
             if(responseOutput != null){
                 return response.status(204).json(responseOutput);
@@ -40,7 +42,8 @@ export class CharacterController {
         const { userId, characterId } = request.params;
 
         try{
-            const responseOutput =  this.characterService.getOneCharacter(Number(userId), Number(characterId))
+            const characterService = new CharacterService();
+            const responseOutput = await characterService.getOneCharacter(Number(userId), Number(characterId))
             
             if(responseOutput != null){
                 return response.status(200).json(responseOutput);
@@ -56,7 +59,8 @@ export class CharacterController {
         const { id } = request.params;
 
         try{
-            const responseOutput =  this.characterService.getAllCharacters(Number(id))
+            const characterService = new CharacterService();
+            const responseOutput = await characterService.getAllCharacters(Number(id))
             
             if(responseOutput != null){
                 return response.status(200).json(responseOutput);
@@ -72,7 +76,8 @@ export class CharacterController {
         const { userId, characterId } = request.params;
 
         try{
-            const responseOutput =  this.characterService.updateCharacter(request.body, Number(userId), Number(characterId))
+            const characterService = new CharacterService();
+            const responseOutput = await characterService.updateCharacter(request.body, Number(userId), Number(characterId))
             
             if(responseOutput != null){
                 return response.status(201).json(responseOutput);
@@ -88,7 +93,8 @@ export class CharacterController {
         const { id } = request.params;
 
         try{
-            const responseOutput =  this.characterService.GetAllCharactersFromAllUsers()
+            const characterService = new CharacterService();
+            const responseOutput = await characterService.GetAllCharactersFromAllUsers()
             
             if(responseOutput != null){
                 return response.status(200).json(responseOutput);

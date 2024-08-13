@@ -5,7 +5,7 @@ const characterRouter = Router();
 
 const userController = new CharacterController();
 
-characterRouter.post('/character', userController.createCharacter);
+characterRouter.post('/character/:id', userController.createCharacter);
 characterRouter.get('/user/:userId/character', userController.getAllCharacters);
 characterRouter.get('/user/:userId/character/:characterId', userController.getOneCharacter);
 characterRouter.delete('/user/:userId/character/:characterId', userController.deleteCharacter);
