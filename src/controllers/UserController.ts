@@ -2,10 +2,11 @@ import { Request, Response } from 'express'
 import { UserService } from '../services/UserService';
 
 export class UserController {
-    userService = new UserService();
     async createUser(request: Request, response: Response){
         try{
-            const userCreated =  this.userService.createUser(request.body)
+            const userService = new UserService();
+            const userCreated = await userService.createUser(request.body)
+            console.log(userCreated)
             return response.status(200).json(userCreated);
         }catch(error){
             console.error('Error creating User: ', error);
@@ -13,8 +14,10 @@ export class UserController {
         }
     }    
     async deleteUser(request: Request, response: Response){
+        const { id } = request.params;
         try{
-            const userDeleted =  this.userService.deleteUser(request.body)
+            const userService = new UserService();
+            const userDeleted = await userService.deleteUser(Number(id))
             if(!userDeleted){
                 return response.status(404).json({ error: "User not found." })
             }else{
@@ -27,7 +30,8 @@ export class UserController {
     }    
     async getAllUsers(request: Request, response: Response){
         try{
-            const users =  this.userService.getAllUsers()
+            const userService = new UserService();
+            const users = await userService.getAllUsers()
             return response.status(200).json(users)  
         }catch(error){
             console.error('Error creating User: ', error);
@@ -37,7 +41,8 @@ export class UserController {
     async getOneUser(request: Request, response: Response){
         const { id } = request.params;
         try{
-            const user =  this.userService.getOneUser(Number(id))
+            const userService = new UserService();
+            const user = await userService.getOneUser(Number(id))
             if(!user){
                 return response.status(404).json({ error: "User not found." })
             }else{
@@ -51,7 +56,8 @@ export class UserController {
     async updateUser(request: Request, response: Response){
         const { id } = request.params;
         try{
-            const updatedUser =  this.userService.updateUser(request.body, Number(id))
+            const userService = new UserService();
+            const updatedUser = await userService.updateUser(request.body, Number(id))
             if(!updatedUser){
                 return response.status(404).json({ error: "User not found." })
             }else{
@@ -65,7 +71,8 @@ export class UserController {
     async patchUser(request: Request, response: Response){
         const { id } = request.params;
         try{
-            const updatedUser =  this.userService.patchUser(request.body, Number(id))
+            const userService = new UserService();
+            const updatedUser =  await userService.patchUser(request.body, Number(id))
             if(!updatedUser){
                 return response.status(404).json({ error: "User not found." })
             }else{

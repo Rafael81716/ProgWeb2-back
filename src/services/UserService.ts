@@ -22,6 +22,7 @@ export class UserService {
             const deletedUser = await this.prismaClient.user.delete({
                 where: { id: Number(id) }
             })
+            return deletedUser
         }else{
             return null
         }
