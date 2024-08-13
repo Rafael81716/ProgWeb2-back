@@ -56,11 +56,11 @@ export class CharacterController {
         }
     }    
     async getAllCharacters(request: Request, response: Response){
-        const { id } = request.params;
+        const { userId } = request.params;
 
         try{
             const characterService = new CharacterService();
-            const responseOutput = await characterService.getAllCharacters(Number(id))
+            const responseOutput = await characterService.getAllCharacters(Number(userId))
             
             if(responseOutput != null){
                 return response.status(200).json(responseOutput);
@@ -90,8 +90,6 @@ export class CharacterController {
         }
     } 
     async getAllCharactersFromAllUsers(request: Request, response: Response){
-        const { id } = request.params;
-
         try{
             const characterService = new CharacterService();
             const responseOutput = await characterService.GetAllCharactersFromAllUsers()
