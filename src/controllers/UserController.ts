@@ -1,6 +1,6 @@
 import { Request, Response } from 'express'
 import { UserService } from '../services/UserService';
-import { userSchema } from '../validation/UserSchema';
+import { userSchema , userSchemaPatch } from '../validation/UserSchema';
 
 export class UserController {
     async createUser(request: Request, response: Response){
@@ -82,7 +82,7 @@ export class UserController {
     async patchUser(request: Request, response: Response){
         const { id } = request.params;
         try{
-            const validated = userSchema.validate(request.body);
+            const validated = userSchemaPatch.validate(request.body);
             if(!validated.error){
                 const userService = new UserService();
                 const updatedUser =  await userService.patchUser(request.body, Number(id))
