@@ -43,7 +43,7 @@ model SavingThrows{
   id Int @id @default (autoincrement())
   strengthMod Int
   dexterityMod Int
-  constituitionMod Int
+  constitutionMod Int
   wisdomMod Int
   intelligenceMod Int
   charismaMod Int
@@ -76,7 +76,7 @@ model AbilityCheck{
 model Attributes{
   id Int @id @default (autoincrement())
   strengthValue Int
-  strenghMod Int
+  strengthMod Int
   dexterityValue Int
   dexterityMod Int
   constitutionValue Int

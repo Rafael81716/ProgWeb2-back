@@ -3,7 +3,7 @@ import Joi from 'joi';
 export const characterSchema = Joi.object({
     name: Joi.string()
         .required(),
-    class: Joi.string()
+    charClass: Joi.string()
         .required(),
     level: Joi.number()
         .min(1)
@@ -100,7 +100,7 @@ export const characterSchema = Joi.object({
 
 export const characterSchemaPatch = Joi.object({
     name: Joi.string(),
-    class: Joi.string(),
+    charClass: Joi.string(),
     level: Joi.number()
         .min(1)
         .max(20),
@@ -108,7 +108,7 @@ export const characterSchemaPatch = Joi.object({
     race: Joi.string(),
     attributes: Joi.object({
         strengthValue: Joi.number().min(1).max(30),
-        strenghMod: Joi.number().min(-5),
+        strengthMod: Joi.number().min(-5),
         dexterityValue: Joi.number().min(1).max(30),
         dexterityMod: Joi.number().min(-5),
         constitutionValue: Joi.number().min(1).max(30),
