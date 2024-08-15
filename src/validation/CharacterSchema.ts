@@ -1,25 +1,21 @@
 import Joi from 'joi';
  
-const characterSchema = Joi.object({
+export const characterSchema = Joi.object({
     name: Joi.string()
-        .alphanum()
         .required(),
     class: Joi.string()
-        .alphanum()
         .required(),
     level: Joi.number()
         .min(1)
         .max(20)
         .required(),
     background: Joi.string()
-        .alphanum()
         .required(),
     race: Joi.string()
-        .alphanum()
         .required(),
     attributes: Joi.object({
         strengthValue: Joi.number().min(1).max(30).required(),
-        strenghMod: Joi.number().min(-5).required(),
+        strengthMod: Joi.number().min(-5).required(),
         dexterityValue: Joi.number().min(1).max(30).required(),
         dexterityMod: Joi.number().min(-5).required(),
         constitutionValue: Joi.number().min(1).max(30).required(),
@@ -31,8 +27,8 @@ const characterSchema = Joi.object({
         charismaValue: Joi.number().min(1).max(30).required(),
         charismaMod: Joi.number().min(-5).required(),
     }),
-    savingThrow: Joi.object({
-        strenghMod: Joi.number().min(-5).required(),
+    savingThrows: Joi.object({
+        strengthMod: Joi.number().min(-5).required(),
         dexterityMod: Joi.number().min(-5).required(),
         constitutionMod: Joi.number().min(-5).required(),
         wisdomMod: Joi.number().min(-5).required(),
@@ -73,38 +69,122 @@ const characterSchema = Joi.object({
         .min(0)
         .max(3)
         .required(),
-    speed: Joi.string()
-        .alphanum()
+    speed: Joi.number()
         .required(),
-    HitPoint: Joi.number()
+    hitPoints: Joi.number()
     .min(0)
     .required(),
     weapons: Joi.array().items(
         Joi.object({
-            name: Joi.string().alphanum(),
+            name: Joi.string(),
             attackBonus: Joi.number(),
-            damageDie: Joi.string().alphanum()
+            damageDie: Joi.string()
         })
     ),
     inventory: Joi.array().items(
         Joi.object({
-            name: Joi.string().alphanum(),
+            name: Joi.string(),
             quantity: Joi.number().min(1),
-            description: Joi.string().alphanum(),
+            description: Joi.string(),
         })
     ),
-    spellcasting: Joi.array().items(
+    spellCasting: Joi.array().items(
         Joi.object({
-            name: Joi.string().alphanum(),
-            effect: Joi.string().alphanum()
+            name: Joi.string(),
+            effect: Joi.string()
         })
     ),
-    history: Joi.string()
-    .alphanum(),
-    notes: Joi.string()
-    .alphanum(),
+    history: Joi.string(),
+    notes: Joi.string(),
+})
+
+export const characterSchemaPatch = Joi.object({
+    name: Joi.string(),
+    class: Joi.string(),
+    level: Joi.number()
+        .min(1)
+        .max(20),
+    background: Joi.string(),
+    race: Joi.string(),
+    attributes: Joi.object({
+        strengthValue: Joi.number().min(1).max(30),
+        strenghMod: Joi.number().min(-5),
+        dexterityValue: Joi.number().min(1).max(30),
+        dexterityMod: Joi.number().min(-5),
+        constitutionValue: Joi.number().min(1).max(30),
+        constitutionMod: Joi.number().min(-5),
+        wisdomValue: Joi.number().min(1).max(30),
+        wisdomMod: Joi.number().min(-5),
+        intelligenceValue: Joi.number().min(1).max(30),
+        intelligenceMod: Joi.number().min(-5),
+        charismaValue: Joi.number().min(1).max(30),
+        charismaMod: Joi.number().min(-5),
+    }),
+    savingThrow: Joi.object({
+        strenghMod: Joi.number().min(-5),
+        dexterityMod: Joi.number().min(-5),
+        constitutionMod: Joi.number().min(-5),
+        wisdomMod: Joi.number().min(-5),
+        intelligenceMod: Joi.number().min(-5),
+        charismaMod: Joi.number().min(-5),
+    }),
+    abilityCheck: Joi.object({
+        acrobatics: Joi.number().min(-5),
+        animalHandling: Joi.number().min(-5),
+        arcana: Joi.number().min(-5),
+        athletics: Joi.number().min(-5),
+        deception: Joi.number().min(-5),
+        history : Joi.number().min(-5),
+        insight: Joi.number().min(-5),
+        intidimation: Joi.number().min(-5),
+        investigation: Joi.number().min(-5),
+        medicine: Joi.number().min(-5),
+        nature: Joi.number().min(-5),
+        perception : Joi.number().min(-5),
+        perfomance: Joi.number().min(-5),
+        persuasion: Joi.number().min(-5),
+        religion: Joi.number().min(-5),
+        sleightOfHand: Joi.number().min(-5),
+        stealth: Joi.number().min(-5),
+        survival : Joi.number().min(-5),
+    }),
+    armorClass: Joi.number()
+        .min(5),
+    initiative: Joi.number()
+        .min(-5),
+    failCounter: Joi.number()
+        .min(0)
+        .max(3),
+    successCounter: Joi.number()
+        .min(0)
+        .max(3),
+    speed: Joi.string(),
+    HitPoint: Joi.number()
+        .min(0),
+    weapons: Joi.array().items(
+        Joi.object({
+            name: Joi.string(),
+            attackBonus: Joi.number(),
+            damageDie: Joi.string()
+        })
+    ),
+    inventory: Joi.array().items(
+        Joi.object({
+            name: Joi.string(),
+            quantity: Joi.number().min(1),
+            description: Joi.string(),
+        })
+    ),
+    spellCasting: Joi.array().items(
+        Joi.object({
+            name: Joi.string(),
+            effect: Joi.string()
+        })
+    ),
+    history: Joi.string(),
+    notes: Joi.string(),
 })
  
 module.exports = {
-    characterSchema
+    characterSchema, characterSchemaPatch
 }

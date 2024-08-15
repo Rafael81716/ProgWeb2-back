@@ -12,7 +12,7 @@ export class UserController {
                 console.log(userCreated)
                 return response.status(200).json(userCreated);
             }else{
-                return response.status(400).json({ error: "Input Error" })
+                return response.status(400).json({ error: validated.error.message })
             }
         }catch(error){
             console.error('Error creating User: ', error);
@@ -72,7 +72,7 @@ export class UserController {
                     return response.status(200).json(updatedUser) 
                 }
             }else{
-                return response.status(400).json({ error: "Input Error" })
+                return response.status(400).json({ error: validated.error.message })
             }
         }catch(error){
             console.error('Error creating User: ', error);
@@ -92,7 +92,7 @@ export class UserController {
                     return response.status(200).json(updatedUser) 
                 }
             }else{
-                return response.status(400).json({ error: "Input Error" })
+                return response.status(400).json({ error: validated.error.message })
             }
         }catch(error){
             console.error('Error creating User: ', error);
