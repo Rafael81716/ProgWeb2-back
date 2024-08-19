@@ -3,6 +3,7 @@ import Joi from 'joi';
 export const characterSchema = Joi.object({
     name: Joi.string()
         .required(),
+    playerName: Joi.string().required(),
     charClass: Joi.string()
         .required(),
     level: Joi.number()
@@ -72,8 +73,7 @@ export const characterSchema = Joi.object({
     speed: Joi.number()
         .required(),
     hitPoints: Joi.number()
-    .min(0)
-    .required(),
+    .min(0),
     weapons: Joi.array().items(
         Joi.object({
             name: Joi.string(),

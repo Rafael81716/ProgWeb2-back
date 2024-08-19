@@ -35,6 +35,17 @@ model Spell{
   id Int @id @default (autoincrement())
   name String
   effect String
+  spellLevelId Int
+  character SpellLevel @relation(fields: [spellLevelId], references: [id])
+  casted Boolean
+  
+}
+
+model SpellLevel{
+  id Int @id @default (autoincrement())
+  totalSpells Int
+  usedSpells Int?
+  spells Spell[]
   characterId Int
   character Character @relation(fields: [characterId], references: [id])
 }
@@ -93,8 +104,11 @@ model Attributes{
 model Character{
   id Int @id @default (autoincrement())
   name String
+  playerName String
+  alignment String
   class String
   level Int
+  XP Int
   background String
   race String
   attributeId Int @unique
@@ -103,18 +117,34 @@ model Character{
   attributes Attributes @relation(fields: [attributeId], references: [id])
   savingThrows SavingThrows @relation(fields: [savingThrowId], references: [id])
   abilityCheck AbilityCheck @relation(fields: [abilityCheckId], references: [id])
+  proficiencyBonus Int
+  inspiration Boolean? @default(false)
   armorClass Int
   initiative Int
   failCounter Int? @default(0)
   successCounter Int? @default(0)
   speed Int
-  hitPoints Int
+  hitPointsMax Int
+  hitPointsActual Int
+  temporaryHitPoints Int?
+  lifeDie String
+  totalLifeDie String
   weapons Weapon[]
   inventory Item[]
-  spellCasting Spell[]
+  spellCasting SpellLevel[]
+  personalityTrait String?
+  ideals String?
+  bonds String?
+  weakness String?
+  talents String?
+  proficiency String?
   history String?
   notes String?
-  //Photo: IMG
+  conjurerClass String?
+  conjurerAttribute String?
+  spellCD Int?
+  spellAttackModifier Int?
+  photo String?
   userId Int
   user User @relation(fields: [userId], references: [id])
 }
