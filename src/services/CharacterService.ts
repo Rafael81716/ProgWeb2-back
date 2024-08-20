@@ -25,7 +25,10 @@ export class CharacterService {
             lifeDie,
             weapons,
             inventory,
-            spellCasting,
+            totalSpells,
+            usedSpells,
+            spells,
+            spellLevelName,
             history,
             notes,
             abilityCheck,
@@ -52,7 +55,7 @@ export class CharacterService {
         const user = await this.prismaClient.user.findUnique({
             where: { id: Number(id) }
         })
-        if(user !== null){
+        if(user){
             const user =  await this.prismaClient.user.update({
                 where: { id: Number(id) },
                 data: {
@@ -99,7 +102,14 @@ export class CharacterService {
                                 create: inventory
                             },
                             spellCasting: {
-                                create: spellCasting
+                                create: {
+                                    totalSpells,
+                                    usedSpells,
+                                    spellLevelName,
+                                    spells : {
+                                        create: spells
+                                    }
+                                }
                             },
                             history,
                             notes,
@@ -120,7 +130,16 @@ export class CharacterService {
     }
     async getOneCharacter(userId: Number, characterId: Number){
         const char = await this.prismaClient.character.findUnique({
-            where: { id: Number(characterId), userId: Number(userId) }
+            where: { id: Number(characterId), userId: Number(userId) },
+            include: {
+                abilityCheck: true,
+                attributes: true,
+                inventory: true,
+                savingThrows: true,
+                spellCasting: true,
+                user: false,
+                weapons: true
+            }
         })
         if (!char) {
             return null;
@@ -195,8 +214,8 @@ export class CharacterService {
             spellCD
         } = body
         
-        const user = this.userService.getOneUser(userId)
-        if(user !== null){
+        const user = await this.userService.getOneUser(userId)
+        if(user){
             const character =  await this.prismaClient.character.update({
                 where: { id: Number(characterId), userId: Number(userId) },
                 include: {
@@ -238,13 +257,13 @@ export class CharacterService {
                     weakness,
                     spellCD,
                     weapons: {
-                        update: weapons
+                        set: weapons
                     },
                     inventory: {
-                        update: inventory
+                        set: inventory
                     },
                     spellCasting: {
-                        update: spellCasting
+                        set: spellCasting
                     },
                     history,
                     notes,

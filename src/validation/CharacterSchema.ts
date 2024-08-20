@@ -1,3 +1,4 @@
+import { profile } from 'console';
 import Joi from 'joi';
  
 export const characterSchema = Joi.object({
@@ -72,12 +73,27 @@ export const characterSchema = Joi.object({
         .required(),
     speed: Joi.number()
         .required(),
-    hitPoints: Joi.number()
-    .min(0),
+    hitPointsActual: Joi.number()
+    .min(0)
+    .required(),
+    hitPointsMax: Joi.number()
+    .min(0)
+    .required(),
+    alignment: Joi
+    .string()
+    .required(),
+    lifeDie: Joi
+    .string()
+    .required(),
+    totalLifeDie: Joi
+    .string()
+    .required(),
+    proficiencyBonus: Joi.number().required(),
+    XP: Joi.number().required(),
     weapons: Joi.array().items(
         Joi.object({
             name: Joi.string(),
-            attackBonus: Joi.number(),
+            attackBonus: Joi.string(),
             damageDie: Joi.string()
         })
     ),
@@ -90,16 +106,36 @@ export const characterSchema = Joi.object({
     ),
     spellCasting: Joi.array().items(
         Joi.object({
-            name: Joi.string(),
-            effect: Joi.string()
+            spells: Joi.array().items(
+                Joi.object({
+                    name: Joi.string(),
+                    effect: Joi.string()
+                })
+            ),
+            totalSpells: Joi.number().required(),
+            actualSpells: Joi.number(),
         })
     ),
     history: Joi.string(),
     notes: Joi.string(),
+    personalityTrait: Joi.string(),
+    bonds: Joi.string(),
+    conjurerAttribute: Joi.string(),
+    conjurerClass: Joi.string(),
+    ideals: Joi.string(),
+    inspiration: Joi.boolean(),
+    photo: Joi.string(),
+    proficiency: Joi.string(),
+    spellAttackModifier: Joi.number(),
+    temporaryHitPoints: Joi.number(),
+    talents: Joi.string(),
+    weakness: Joi.string(),
+    spellCD: Joi.number()
 })
 
 export const characterSchemaPatch = Joi.object({
     name: Joi.string(),
+    playerName: Joi.string(),
     charClass: Joi.string(),
     level: Joi.number()
         .min(1)
@@ -159,8 +195,18 @@ export const characterSchemaPatch = Joi.object({
         .min(0)
         .max(3),
     speed: Joi.string(),
-    HitPoint: Joi.number()
-        .min(0),
+    hitPointsActual: Joi.number()
+    .min(0),
+    hitPointsMax: Joi.number()
+    .min(0),
+    alignment: Joi
+    .string(),
+    lifeDie: Joi
+    .string(),
+    totalLifeDie: Joi
+    .string(),
+    proficiencyBonus: Joi.number(),
+    XP: Joi.number(),
     weapons: Joi.array().items(
         Joi.object({
             name: Joi.string(),
@@ -177,12 +223,32 @@ export const characterSchemaPatch = Joi.object({
     ),
     spellCasting: Joi.array().items(
         Joi.object({
-            name: Joi.string(),
-            effect: Joi.string()
+            spells: Joi.array().items(
+                Joi.object({
+                    name: Joi.string(),
+                    effect: Joi.string(),
+                    casted: Joi.boolean()
+                })
+            ),
+            totalSpells: Joi.number(),
+            actualSpells: Joi.number(),
         })
     ),
     history: Joi.string(),
     notes: Joi.string(),
+    personalityTrait: Joi.string(),
+    bonds: Joi.string(),
+    conjurerAttribute: Joi.string(),
+    conjurerClass: Joi.string(),
+    ideals: Joi.string(),
+    inspiration: Joi.boolean(),
+    photo: Joi.string(),
+    proficiency: Joi.string(),
+    spellAttackModifier: Joi.number(),
+    temporaryHitPoints: Joi.number(),
+    talents: Joi.string(),
+    weakness: Joi.string(),
+    spellCD: Joi.number()
 })
  
 module.exports = {
