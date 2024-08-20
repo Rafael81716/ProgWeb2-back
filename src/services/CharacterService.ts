@@ -214,7 +214,7 @@ export class CharacterService {
             spellCD
         } = body
         
-        const user = await this.userService.getOneUser(userId)
+        const user = await this.userService.getOneUser(userId  as number)
         if(user){
             const character =  await this.prismaClient.character.update({
                 where: { id: Number(characterId), userId: Number(userId) },
@@ -257,13 +257,31 @@ export class CharacterService {
                     weakness,
                     spellCD,
                     weapons: {
-                        set: weapons
+                        upsert: weapons.map((w: { id: any; }) => {
+                            return {
+                                create: w,
+                                update: w,
+                                where: { id: w.id ?? -1 }
+                            }
+                        })
                     },
                     inventory: {
-                        set: inventory
+                        upsert: inventory.map((i: { id: any; }) => {
+                            return {
+                                create: i,
+                                update: i,
+                                where: { id: i.id ?? -1 }
+                            }
+                        })
                     },
                     spellCasting: {
-                        set: spellCasting
+                        upsert: spellCasting.map((s: { id: any; }) => {
+                            return {
+                                create: s,
+                                update: s,
+                                where: { id: s.id ?? -1 }
+                            }
+                        })
                     },
                     history,
                     notes,

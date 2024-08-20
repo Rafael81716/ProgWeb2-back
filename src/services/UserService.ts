@@ -16,8 +16,8 @@ export class UserService {
 
         return user
     }
-    async deleteUser(id: Number){
-        const user = this.getOneUser(id);
+    async deleteUser(id: number){
+        const user = this.getOneUser(id );
         if(user !== null){
             const deletedUser = await this.prismaClient.user.delete({
                 where: { id: Number(id) }
@@ -35,9 +35,9 @@ export class UserService {
         })
         return users;
     }
-    async getOneUser(id: Number){
+    async getOneUser(id: number){
         const user = await this.prismaClient.user.findUnique({
-            where: { id: Number(id) },
+            where: { id: id },
             include: {
                 characters: true
             }
