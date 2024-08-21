@@ -47,8 +47,16 @@ model SpellLevel{
   totalSpells Int?
   usedSpells Int?
   spells Spell[]
-  characterId Int
-  character Character @relation(fields: [characterId], references: [id])
+  character0 Character? @relation("spellLevel0")
+  Character1 Character? @relation("spellLevel1")
+  Character2 Character? @relation("spellLevel2")
+  Character3 Character? @relation("spellLevel3")
+  Character4 Character? @relation("spellLevel4")
+  Character5 Character? @relation("spellLevel5")
+  Character6 Character? @relation("spellLevel6")
+  Character7 Character? @relation("spellLevel7")
+  Character8 Character? @relation("spellLevel8")
+  Character9 Character? @relation("spellLevel9")
 }
 
 model SavingThrows{
@@ -132,7 +140,26 @@ model Character{
   totalLifeDie String
   weapons Weapon[]
   inventory Item[]
-  spellCasting SpellLevel[]
+  spellLevel0Id Int @unique
+  spellLevel1Id Int @unique
+  spellLevel2Id Int @unique
+  spellLevel3Id Int @unique
+  spellLevel4Id Int @unique
+  spellLevel5Id Int @unique
+  spellLevel6Id Int @unique
+  spellLevel7Id Int @unique
+  spellLevel8Id Int @unique
+  spellLevel9Id Int @unique
+  spellLevel0 SpellLevel @relation("spellLevel0", fields: [spellLevel0Id], references: [id])
+  spellLevel1 SpellLevel @relation("spellLevel1", fields: [spellLevel1Id], references: [id])
+  spellLevel2 SpellLevel @relation("spellLevel2", fields: [spellLevel2Id], references: [id])
+  spellLevel3 SpellLevel @relation("spellLevel3", fields: [spellLevel3Id], references: [id])
+  spellLevel4 SpellLevel @relation("spellLevel4", fields: [spellLevel4Id], references: [id])
+  spellLevel5 SpellLevel @relation("spellLevel5", fields: [spellLevel5Id], references: [id])
+  spellLevel6 SpellLevel @relation("spellLevel6", fields: [spellLevel6Id], references: [id])
+  spellLevel7 SpellLevel @relation("spellLevel7", fields: [spellLevel7Id], references: [id])
+  spellLevel8 SpellLevel @relation("spellLevel8", fields: [spellLevel8Id], references: [id])
+  spellLevel9 SpellLevel @relation("spellLevel9", fields: [spellLevel9Id], references: [id])
   personalityTrait String?
   ideals String?
   bonds String?
