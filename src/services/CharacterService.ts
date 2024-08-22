@@ -64,6 +64,65 @@ export class CharacterService {
         if(user){
             const user =  await this.prismaClient.user.update({
                 where: { id: Number(id) },
+                include: { characters: {
+                    include: {
+                        abilityCheck: true,
+                        attributes: true,
+                        inventory: true,
+                        savingThrows: true,
+                        spellLevel0: {
+                            include: {
+                                spells: true,
+                            }
+                        },
+                        spellLevel1: {
+                            include: {
+                                spells: true,
+                            }
+                        },
+                        spellLevel2: {
+                            include: {
+                                spells: true,
+                            }
+                        },
+                        spellLevel3: {
+                            include: {
+                                spells: true,
+                            }
+                        },
+                        spellLevel4: {
+                            include: {
+                                spells: true,
+                            }
+                        },
+                        spellLevel5: {
+                            include: {
+                                spells: true,
+                            }
+                        },
+                        spellLevel6: {
+                            include: {
+                                spells: true,
+                            }
+                        },
+                        spellLevel7: {
+                            include: {
+                                spells: true,
+                            }
+                        },
+                        spellLevel8: {
+                            include: {
+                                spells: true,
+                            }
+                        },
+                        spellLevel9: {
+                            include: {
+                                spells: true,
+                            }
+                        },
+                        weapons: true
+                    }
+                } },
                 data: {
                     characters: {
                         create : {
@@ -145,7 +204,7 @@ export class CharacterService {
                             savingThrows: {
                                 create: savingThrows
                             }
-                        }
+                        },
                     },
                 }
             });
@@ -263,7 +322,7 @@ export class CharacterService {
             const character =  await this.prismaClient.character.update({
                 where: { id: Number(characterId), userId: Number(userId) },
                 include: {
-                    user: false
+                    user: false,
                 },
                 data: {
                     name,

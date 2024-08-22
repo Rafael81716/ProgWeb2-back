@@ -11,6 +11,9 @@ export class UserService {
                 email,
                 password,
                 username
+            }, 
+            include: {
+                characters: true
             }
         });
 
@@ -20,7 +23,10 @@ export class UserService {
         const user = this.getOneUser(id );
         if(user !== null){
             const deletedUser = await this.prismaClient.user.delete({
-                where: { id: Number(id) }
+                where: { id: Number(id) },
+                include: {
+                    characters: true
+                }
             })
             return deletedUser
         }else{
@@ -54,6 +60,9 @@ export class UserService {
                 password,
                 username,
                 characters
+            }, 
+            include: {
+                characters: true
             }
         });
         
@@ -69,6 +78,9 @@ export class UserService {
                 ...(password && { password }),
                 ...(username && { username } ),
                 ...(characters && { characters })
+            }, 
+            include: {
+                characters: true
             }
         });
 
