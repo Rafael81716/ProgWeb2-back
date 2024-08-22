@@ -45,7 +45,66 @@ export class UserService {
         const user = await this.prismaClient.user.findUnique({
             where: { id: id },
             include: {
-                characters: true
+                characters: { 
+                    include: {
+                        abilityCheck: true,
+                        attributes: true,
+                        inventory: true,
+                        savingThrows: true,
+                        spellLevel0: {
+                            include: {
+                                spells: true,
+                            }
+                        },
+                        spellLevel1: {
+                            include: {
+                                spells: true,
+                            }
+                        },
+                        spellLevel2: {
+                            include: {
+                                spells: true,
+                            }
+                        },
+                        spellLevel3: {
+                            include: {
+                                spells: true,
+                            }
+                        },
+                        spellLevel4: {
+                            include: {
+                                spells: true,
+                            }
+                        },
+                        spellLevel5: {
+                            include: {
+                                spells: true,
+                            }
+                        },
+                        spellLevel6: {
+                            include: {
+                                spells: true,
+                            }
+                        },
+                        spellLevel7: {
+                            include: {
+                                spells: true,
+                            }
+                        },
+                        spellLevel8: {
+                            include: {
+                                spells: true,
+                            }
+                        },
+                        spellLevel9: {
+                            include: {
+                                spells: true,
+                            }
+                        },
+                        user: false,
+                        weapons: true
+                    }
+                }
             }
         })
         return user;

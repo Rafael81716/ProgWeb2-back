@@ -167,34 +167,94 @@ export class CharacterService {
                                 create: inventory
                             },
                             spellLevel0: {
-                                create: spellLevel0
+                                create: {
+                                    totalSpells: spellLevel0.totalSpells,
+                                    usedSpells: spellLevel0.usedSpells,
+                                    spells: {
+                                        create: spellLevel0.spells
+                                    }
+                                }
                             },
                             spellLevel1: {
-                                create: spellLevel1
+                                create: {
+                                    totalSpells: spellLevel1.totalSpells,
+                                    usedSpells: spellLevel1.usedSpells,
+                                    spells: {
+                                        create: spellLevel1.spells
+                                    }
+                                }
                             },
                             spellLevel2: {
-                                create: spellLevel2
+                                create: {
+                                    totalSpells: spellLevel2.totalSpells,
+                                    usedSpells: spellLevel2.usedSpells,
+                                    spells: {
+                                        create: spellLevel2.spells
+                                    }
+                                }
                             },
                             spellLevel3: {
-                                create: spellLevel3
+                                create: {
+                                    totalSpells: spellLevel3.totalSpells,
+                                    usedSpells: spellLevel3.usedSpells,
+                                    spells: {
+                                        create: spellLevel3.spells
+                                    }
+                                }
                             },
                             spellLevel4: {
-                                create: spellLevel4
+                                create: {
+                                    totalSpells: spellLevel4.totalSpells,
+                                    usedSpells: spellLevel4.usedSpells,
+                                    spells: {
+                                        create: spellLevel4.spells
+                                    }
+                                }
                             },
                             spellLevel5: {
-                                create: spellLevel5
+                                create: {
+                                    totalSpells: spellLevel5.totalSpells,
+                                    usedSpells: spellLevel5.usedSpells,
+                                    spells: {
+                                        create: spellLevel5.spells
+                                    }
+                                }
                             },
                             spellLevel6: {
-                                create: spellLevel6
+                                create: {
+                                    totalSpells: spellLevel6.totalSpells,
+                                    usedSpells: spellLevel6.usedSpells,
+                                    spells: {
+                                        create: spellLevel6.spells
+                                    }
+                                }
                             },
                             spellLevel7: {
-                                create: spellLevel7
+                                create: {
+                                    totalSpells: spellLevel7.totalSpells,
+                                    usedSpells: spellLevel7.usedSpells,
+                                    spells: {
+                                        create: spellLevel7.spells
+                                    }
+                                }
                             },
                             spellLevel8: {
-                                create: spellLevel8
+                                create: {
+                                    totalSpells: spellLevel8.totalSpells,
+                                    usedSpells: spellLevel8.usedSpells,
+                                    spells: {
+                                        create: spellLevel8.spells
+                                    }
+                                }
                             },
                             spellLevel9: {
-                                create: spellLevel9
+                                create: {
+                                    totalSpells: spellLevel9.totalSpells,
+                                    usedSpells: spellLevel9.usedSpells,
+                                    spells: {
+                                        create: spellLevel9.spells
+                                    }
+                                }
                             },
                             history,
                             notes,
@@ -221,16 +281,56 @@ export class CharacterService {
                 attributes: true,
                 inventory: true,
                 savingThrows: true,
-                spellLevel0: true,
-                spellLevel1: true,
-                spellLevel2: true,
-                spellLevel3: true,
-                spellLevel4: true,
-                spellLevel5: true,
-                spellLevel6: true,
-                spellLevel7: true,
-                spellLevel8: true,
-                spellLevel9: true,
+                spellLevel0: {
+                    include: {
+                        spells: true,
+                    }
+                },
+                spellLevel1: {
+                    include: {
+                        spells: true,
+                    }
+                },
+                spellLevel2: {
+                    include: {
+                        spells: true,
+                    }
+                },
+                spellLevel3: {
+                    include: {
+                        spells: true,
+                    }
+                },
+                spellLevel4: {
+                    include: {
+                        spells: true,
+                    }
+                },
+                spellLevel5: {
+                    include: {
+                        spells: true,
+                    }
+                },
+                spellLevel6: {
+                    include: {
+                        spells: true,
+                    }
+                },
+                spellLevel7: {
+                    include: {
+                        spells: true,
+                    }
+                },
+                spellLevel8: {
+                    include: {
+                        spells: true,
+                    }
+                },
+                spellLevel9: {
+                    include: {
+                        spells: true,
+                    }
+                },
                 user: false,
                 weapons: true
             }
@@ -323,6 +423,61 @@ export class CharacterService {
                 where: { id: Number(characterId), userId: Number(userId) },
                 include: {
                     user: false,
+                    abilityCheck: true,
+                    attributes: true,
+                    inventory: true,
+                    savingThrows: true,
+                    spellLevel0: {
+                        include: {
+                            spells: true,
+                        }
+                    },
+                    spellLevel1: {
+                        include: {
+                            spells: true,
+                        }
+                    },
+                    spellLevel2: {
+                        include: {
+                            spells: true,
+                        }
+                    },
+                    spellLevel3: {
+                        include: {
+                            spells: true,
+                        }
+                    },
+                    spellLevel4: {
+                        include: {
+                            spells: true,
+                        }
+                    },
+                    spellLevel5: {
+                        include: {
+                            spells: true,
+                        }
+                    },
+                    spellLevel6: {
+                        include: {
+                            spells: true,
+                        }
+                    },
+                    spellLevel7: {
+                        include: {
+                            spells: true,
+                        }
+                    },
+                    spellLevel8: {
+                        include: {
+                            spells: true,
+                        }
+                    },
+                    spellLevel9: {
+                        include: {
+                            spells: true,
+                        }
+                    },
+                    weapons: true
                 },
                 data: {
                     name,
@@ -379,133 +534,153 @@ export class CharacterService {
                     },
                     spellLevel0: {
                         update: {
-                            totalSpells: spellLevel0.totalSpells,
-                            usedSpells: spellLevel0.usedSpells,
-                        },
-                        upsert: spellLevel0.spells.map((i: { id: any; }) => {
-                            return {
-                                create: i,
-                                update: i,
-                                where: { id: i.id ?? -1 }
+                            totalSpells: spellLevel0?.totalSpells,
+                            usedSpells: spellLevel0?.usedSpells,
+                            spells: {
+                                upsert: spellLevel1.spells?.map((i: { id: any; }) => {
+                                    return {
+                                        create: i,
+                                        update: i,
+                                        where: { id: i.id ?? -1 }
+                                    }
+                                })   
                             }
-                        })   
+                        }, 
                     },
                     spellLevel1: {
                         update: {
-                            totalSpells: spellLevel1.totalSpells,
-                            usedSpells: spellLevel1.usedSpells,
-                        },
-                        upsert: spellLevel1.spells.map((i: { id: any; }) => {
-                            return {
-                                create: i,
-                                update: i,
-                                where: { id: i.id ?? -1 }
+                            totalSpells: spellLevel1?.totalSpells,
+                            usedSpells: spellLevel1?.usedSpells,
+                            spells: {
+                                upsert: spellLevel1.spells?.map((i: { id: any; }) => {
+                                    return {
+                                        create: i,
+                                        update: i,
+                                        where: { id: i.id ?? -1 }
+                                    }
+                                })   
                             }
-                        })   
+                        }
                     },
                     spellLevel2: {
                         update: {
-                            totalSpells: spellLevel2.totalSpells,
-                            usedSpells: spellLevel2.usedSpells,
-                        },
-                        upsert: spellLevel2.spells.map((i: { id: any; }) => {
-                            return {
-                                create: i,
-                                update: i,
-                                where: { id: i.id ?? -1 }
+                            totalSpells: spellLevel2?.totalSpells,
+                            usedSpells: spellLevel2?.usedSpells,
+                            spells: {
+                                upsert: spellLevel2.spells?.map((i: { id: any; }) => {
+                                    return {
+                                        create: i,
+                                        update: i,
+                                        where: { id: i.id ?? -1 }
+                                    }
+                                })   
                             }
-                        })   
+                        }  
                     },
                     spellLevel3: {
                         update: {
-                            totalSpells: spellLevel3.totalSpells,
-                            usedSpells: spellLevel3.usedSpells,
-                        },
-                        upsert: spellLevel3.spells.map((i: { id: any; }) => {
-                            return {
-                                create: i,
-                                update: i,
-                                where: { id: i.id ?? -1 }
+                            totalSpells: spellLevel3?.totalSpells,
+                            usedSpells: spellLevel3?.usedSpells,
+                            spells: {
+                                upsert: spellLevel3.spells?.map((i: { id: any; }) => {
+                                    return {
+                                        create: i,
+                                        update: i,
+                                        where: { id: i.id ?? -1 }
+                                    }
+                                })   
                             }
-                        })   
+                        }, 
                     },
                     spellLevel4: {
                         update: {
-                            totalSpells: spellLevel4.totalSpells,
-                            usedSpells: spellLevel4.usedSpells,
-                        },
-                        upsert: spellLevel4.spells.map((i: { id: any; }) => {
-                            return {
-                                create: i,
-                                update: i,
-                                where: { id: i.id ?? -1 }
+                            totalSpells: spellLevel4?.totalSpells,
+                            usedSpells: spellLevel4?.usedSpells,
+                            spells: {
+                                upsert: spellLevel4.spells?.map((i: { id: any; }) => {
+                                    return {
+                                        create: i,
+                                        update: i,
+                                        where: { id: i.id ?? -1 }
+                                    }
+                                })   
                             }
-                        })   
+                        },
                     },
                     spellLevel5: {
                         update: {
-                            totalSpells: spellLevel5.totalSpells,
-                            usedSpells: spellLevel5.usedSpells,
-                        },
-                        upsert: spellLevel5.spells.map((i: { id: any; }) => {
-                            return {
-                                create: i,
-                                update: i,
-                                where: { id: i.id ?? -1 }
+                            totalSpells: spellLevel5?.totalSpells,
+                            usedSpells: spellLevel5?.usedSpells,
+                            spells: {
+                                upsert: spellLevel5.spells?.map((i: { id: any; }) => {
+                                    return {
+                                        create: i,
+                                        update: i,
+                                        where: { id: i.id ?? -1 }
+                                    }
+                                })   
                             }
-                        })   
+                        },
                     },
                     spellLevel6: {
                         update: {
-                            totalSpells: spellLevel6.totalSpells,
-                            usedSpells: spellLevel6.usedSpells,
-                        },
-                        upsert: spellLevel6.spells.map((i: { id: any; }) => {
-                            return {
-                                create: i,
-                                update: i,
-                                where: { id: i.id ?? -1 }
+                            totalSpells: spellLevel6?.totalSpells,
+                            usedSpells: spellLevel6?.usedSpells,
+                            spells: {
+                                upsert: spellLevel6.spells?.map((i: { id: any; }) => {
+                                    return {
+                                        create: i,
+                                        update: i,
+                                        where: { id: i.id ?? -1 }
+                                    }
+                                })   
                             }
-                        })   
+                        },
                     },
                     spellLevel7: {
                         update: {
-                            totalSpells: spellLevel7.totalSpells,
-                            usedSpells: spellLevel7.usedSpells,
-                        },
-                        upsert: spellLevel7.spells.map((i: { id: any; }) => {
-                            return {
-                                create: i,
-                                update: i,
-                                where: { id: i.id ?? -1 }
+                            totalSpells: spellLevel7?.totalSpells,
+                            usedSpells: spellLevel7?.usedSpells,
+                            spells: {
+                                upsert: spellLevel7.spells?.map((i: { id: any; }) => {
+                                    return {
+                                        create: i,
+                                        update: i,
+                                        where: { id: i.id ?? -1 }
+                                    }
+                                })   
                             }
-                        })   
+                        },
                     },
                     spellLevel8: {
                         update: {
-                            totalSpells: spellLevel8.totalSpells,
-                            usedSpells: spellLevel8.usedSpells,
-                        },
-                        upsert: spellLevel8.spells.map((i: { id: any; }) => {
-                            return {
-                                create: i,
-                                update: i,
-                                where: { id: i.id ?? -1 }
-                            }
-                        })   
+                            totalSpells: spellLevel8?.totalSpells,
+                            usedSpells: spellLevel8?.usedSpells,
+                            spells: {
+                                upsert: spellLevel8.spells?.map((i: { id: any; }) => {
+                                    return {
+                                        create: i,
+                                        update: i,
+                                        where: { id: i.id ?? -1 }
+                                    }
+                            })   
+                        }
+                        },  
                     },
                     spellLevel9: {
                         update: {
-                            totalSpells: spellLevel9.totalSpells,
-                            usedSpells: spellLevel9.usedSpells,
-                        },
-                        upsert: spellLevel9.spells.map((i: { id: any; }) => {
-                            return {
-                                create: i,
-                                update: i,
-                                where: { id: i.id ?? -1 }
+                            totalSpells: spellLevel9?.totalSpells,
+                            usedSpells: spellLevel9?.usedSpells,
+                            spells: {
+                                upsert: spellLevel9.spells?.map((i: { id: any; }) => {
+                                    return {
+                                        create: i,
+                                        update: i,
+                                        where: { id: i.id ?? -1 }
+                                    }
+                                })   
                             }
-                        })   
+                        }, 
                     },
                     history,
                     notes,

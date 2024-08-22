@@ -92,6 +92,7 @@ export const characterSchema = Joi.object({
     XP: Joi.number().required(),
     weapons: Joi.array().items(
         Joi.object({
+            id: Joi.number(),
             name: Joi.string(),
             attackBonus: Joi.string(),
             damageDie: Joi.string()
@@ -99,6 +100,7 @@ export const characterSchema = Joi.object({
     ),
     inventory: Joi.array().items(
         Joi.object({
+            id: Joi.number(),
             name: Joi.string(),
             quantity: Joi.number().min(1),
             description: Joi.string(),
@@ -109,8 +111,10 @@ export const characterSchema = Joi.object({
         usedSpells: Joi.number(),
         spells: Joi.array().items(
             Joi.object({
+                id: Joi.number(),
                 name: Joi.string(),
                 effect: Joi.string(),
+                casted: Joi.boolean()
             })
         ) 
     }),
@@ -119,8 +123,10 @@ export const characterSchema = Joi.object({
         usedSpells: Joi.number(),
         spells: Joi.array().items(
             Joi.object({
+                id: Joi.number(),
                 name: Joi.string(),
                 effect: Joi.string(),
+                casted: Joi.boolean()
             })
         ) 
     }),
@@ -129,8 +135,10 @@ export const characterSchema = Joi.object({
         usedSpells: Joi.number(),
         spells: Joi.array().items(
             Joi.object({
+                id: Joi.number(),
                 name: Joi.string(),
                 effect: Joi.string(),
+                casted: Joi.boolean()
             })
         ) 
     }),
@@ -139,8 +147,10 @@ export const characterSchema = Joi.object({
         usedSpells: Joi.number(),
         spells: Joi.array().items(
             Joi.object({
+                id: Joi.number(),
                 name: Joi.string(),
                 effect: Joi.string(),
+                casted: Joi.boolean()
             })
         ) 
     }),
@@ -149,8 +159,10 @@ export const characterSchema = Joi.object({
         usedSpells: Joi.number(),
         spells: Joi.array().items(
             Joi.object({
+                id: Joi.number(),
                 name: Joi.string(),
                 effect: Joi.string(),
+                casted: Joi.boolean()
             })
         ) 
     }),
@@ -159,8 +171,10 @@ export const characterSchema = Joi.object({
         usedSpells: Joi.number(),
         spells: Joi.array().items(
             Joi.object({
+                id: Joi.number(),
                 name: Joi.string(),
                 effect: Joi.string(),
+                casted: Joi.boolean()
             })
         ) 
     }),
@@ -169,8 +183,10 @@ export const characterSchema = Joi.object({
         usedSpells: Joi.number(),
         spells: Joi.array().items(
             Joi.object({
+                id: Joi.number(),
                 name: Joi.string(),
                 effect: Joi.string(),
+                casted: Joi.boolean()
             })
         ) 
     }),
@@ -179,8 +195,10 @@ export const characterSchema = Joi.object({
         usedSpells: Joi.number(),
         spells: Joi.array().items(
             Joi.object({
+                id: Joi.number(),
                 name: Joi.string(),
                 effect: Joi.string(),
+                casted: Joi.boolean()
             })
         ) 
     }),
@@ -189,8 +207,10 @@ export const characterSchema = Joi.object({
         usedSpells: Joi.number(),
         spells: Joi.array().items(
             Joi.object({
+                id: Joi.number(),
                 name: Joi.string(),
                 effect: Joi.string(),
+                casted: Joi.boolean()
             })
         ) 
     }),
@@ -199,8 +219,10 @@ export const characterSchema = Joi.object({
         usedSpells: Joi.number(),
         spells: Joi.array().items(
             Joi.object({
+                id: Joi.number(),
                 name: Joi.string(),
                 effect: Joi.string(),
+                casted: Joi.boolean()
             })
         ) 
     }),

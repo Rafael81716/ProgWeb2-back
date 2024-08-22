@@ -19,7 +19,7 @@ model Item{
   quantity Int
   description String
   characterId Int
-  character Character @relation(fields: [characterId], references: [id])
+  character Character @relation(fields: [characterId], references: [id], onDelete: Cascade)
 }
 
 model Weapon{
@@ -28,7 +28,7 @@ model Weapon{
   attackBonus String
   damageDie String
   characterId Int
-  character Character @relation(fields: [characterId], references: [id])
+  character Character @relation(fields: [characterId], references: [id], onDelete: Cascade)
 }
 
 model Spell{
@@ -36,7 +36,7 @@ model Spell{
   name String
   effect String
   spellLevelId Int
-  character SpellLevel @relation(fields: [spellLevelId], references: [id])
+  spellLevel SpellLevel @relation(fields: [spellLevelId], references: [id], onDelete: Cascade)
   casted Boolean
   
 }
@@ -122,9 +122,9 @@ model Character{
   attributeId Int @unique
   savingThrowId Int @unique
   abilityCheckId Int @unique
-  attributes Attributes @relation(fields: [attributeId], references: [id])
-  savingThrows SavingThrows @relation(fields: [savingThrowId], references: [id])
-  abilityCheck AbilityCheck @relation(fields: [abilityCheckId], references: [id])
+  attributes Attributes @relation(fields: [attributeId], references: [id], onDelete: Cascade)
+  savingThrows SavingThrows @relation(fields: [savingThrowId], references: [id], onDelete: Cascade)
+  abilityCheck AbilityCheck @relation(fields: [abilityCheckId], references: [id], onDelete: Cascade)
   proficiencyBonus Int
   inspiration Boolean? @default(false)
   armorClass Int
@@ -149,16 +149,16 @@ model Character{
   spellLevel7Id Int @unique
   spellLevel8Id Int @unique
   spellLevel9Id Int @unique
-  spellLevel0 SpellLevel @relation("spellLevel0", fields: [spellLevel0Id], references: [id])
-  spellLevel1 SpellLevel @relation("spellLevel1", fields: [spellLevel1Id], references: [id])
-  spellLevel2 SpellLevel @relation("spellLevel2", fields: [spellLevel2Id], references: [id])
-  spellLevel3 SpellLevel @relation("spellLevel3", fields: [spellLevel3Id], references: [id])
-  spellLevel4 SpellLevel @relation("spellLevel4", fields: [spellLevel4Id], references: [id])
-  spellLevel5 SpellLevel @relation("spellLevel5", fields: [spellLevel5Id], references: [id])
-  spellLevel6 SpellLevel @relation("spellLevel6", fields: [spellLevel6Id], references: [id])
-  spellLevel7 SpellLevel @relation("spellLevel7", fields: [spellLevel7Id], references: [id])
-  spellLevel8 SpellLevel @relation("spellLevel8", fields: [spellLevel8Id], references: [id])
-  spellLevel9 SpellLevel @relation("spellLevel9", fields: [spellLevel9Id], references: [id])
+  spellLevel0 SpellLevel @relation("spellLevel0", fields: [spellLevel0Id], references: [id], onDelete: Cascade)
+  spellLevel1 SpellLevel @relation("spellLevel1", fields: [spellLevel1Id], references: [id], onDelete: Cascade)
+  spellLevel2 SpellLevel @relation("spellLevel2", fields: [spellLevel2Id], references: [id], onDelete: Cascade)
+  spellLevel3 SpellLevel @relation("spellLevel3", fields: [spellLevel3Id], references: [id], onDelete: Cascade)
+  spellLevel4 SpellLevel @relation("spellLevel4", fields: [spellLevel4Id], references: [id], onDelete: Cascade)
+  spellLevel5 SpellLevel @relation("spellLevel5", fields: [spellLevel5Id], references: [id], onDelete: Cascade)
+  spellLevel6 SpellLevel @relation("spellLevel6", fields: [spellLevel6Id], references: [id], onDelete: Cascade)
+  spellLevel7 SpellLevel @relation("spellLevel7", fields: [spellLevel7Id], references: [id], onDelete: Cascade)
+  spellLevel8 SpellLevel @relation("spellLevel8", fields: [spellLevel8Id], references: [id], onDelete: Cascade)
+  spellLevel9 SpellLevel @relation("spellLevel9", fields: [spellLevel9Id], references: [id], onDelete: Cascade)
   personalityTrait String?
   ideals String?
   bonds String?
