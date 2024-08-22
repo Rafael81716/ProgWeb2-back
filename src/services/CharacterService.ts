@@ -698,6 +698,340 @@ export class CharacterService {
             return null;
         }
     }
+    async patchCharacter(body: any, userId: Number, characterId: Number){
+        const { 
+            name,
+            playerName,
+            charClass,
+            level,
+            background,
+            race,
+            attributes,
+            armorClass,
+            initiative,
+            failCounter,
+            successCounter,
+            speed,
+            hitPointsActual,
+            hitPointsMax,
+            alignment,
+            lifeDie,
+            weapons,
+            inventory,
+            history,
+            notes,
+            abilityCheck,
+            savingThrows,
+            personalityTrait,
+            proficiencyBonus,
+            totalLifeDie,
+            XP,
+            bonds,
+            conjurerAttribute,
+            conjurerClass,
+            ideals,
+            inspiration,
+            photo,
+            proficiency,
+            spellAttackModifier,
+            temporaryHitPoints,
+            talents,
+            weakness,
+            spellCD,
+            spellLevel0,
+            spellLevel1,
+            spellLevel2,
+            spellLevel3,
+            spellLevel4,
+            spellLevel5,
+            spellLevel6,
+            spellLevel7,
+            spellLevel8,
+            spellLevel9
+        } = body
+        
+        const user = await this.userService.getOneUser(userId  as number)
+        if(user){
+            const character =  await this.prismaClient.character.update({
+                where: { id: Number(characterId), userId: Number(userId) },
+                include: {
+                    user: false,
+                    abilityCheck: true,
+                    attributes: true,
+                    inventory: true,
+                    savingThrows: true,
+                    spellLevel0: {
+                        include: {
+                            spells: true,
+                        }
+                    },
+                    spellLevel1: {
+                        include: {
+                            spells: true,
+                        }
+                    },
+                    spellLevel2: {
+                        include: {
+                            spells: true,
+                        }
+                    },
+                    spellLevel3: {
+                        include: {
+                            spells: true,
+                        }
+                    },
+                    spellLevel4: {
+                        include: {
+                            spells: true,
+                        }
+                    },
+                    spellLevel5: {
+                        include: {
+                            spells: true,
+                        }
+                    },
+                    spellLevel6: {
+                        include: {
+                            spells: true,
+                        }
+                    },
+                    spellLevel7: {
+                        include: {
+                            spells: true,
+                        }
+                    },
+                    spellLevel8: {
+                        include: {
+                            spells: true,
+                        }
+                    },
+                    spellLevel9: {
+                        include: {
+                            spells: true,
+                        }
+                    },
+                    weapons: true
+                },
+                data: {
+                    ...(name && { name }),
+                    ...(charClass && { class: charClass }),
+                    ...(level && {}),
+                    ...(background && {}),
+                    ...(race && {}),
+                    ...(attributes && {attributes: {
+                            update: attributes
+                        }
+                    }),
+                    ...(armorClass && { armorClass }),
+                    ...(initiative && { initiative }),
+                    ...(failCounter && { failCounter }),
+                    ...(successCounter && { successCounter }),
+                    ...(speed && { speed }),
+                    ...(hitPointsActual && { hitPointsActual }),
+                    ...(alignment && { alignment }),
+                    ...(hitPointsMax && { hitPointsMax }),
+                    ...(lifeDie && { lifeDie }),
+                    ...(playerName && { playerName }),
+                    ...(proficiencyBonus && { proficiencyBonus }),
+                    ...(totalLifeDie && { totalLifeDie }),
+                    ...(XP && { XP }),
+                    ...(personalityTrait && { personalityTrait }),
+                    ...(bonds && { bonds }),
+                    ...(conjurerAttribute && { conjurerAttribute }),
+                    ...(conjurerClass && { conjurerClass }),
+                    ...(ideals && { ideals }),
+                    ...(inspiration && { inspiration }),
+                    ...(photo && { photo }),
+                    ...(proficiency && { proficiency }),
+                    ...(spellAttackModifier && { spellAttackModifier }),
+                    ...(temporaryHitPoints && { temporaryHitPoints }),
+                    ...(talents && { talents }),
+                    ...(weakness && { weakness }),
+                    ...(spellCD && { spellCD }),
+                    ...(weapons &&  {weapons: {
+                        upsert: weapons.map((w: { id: any; }) => {
+                            return {
+                                create: w,
+                                update: w,
+                                where: { id: w.id ?? -1 }
+                            }
+                        })
+                    }}),
+                    ...(inventory && {inventory: {
+                        upsert: inventory.map((i: { id: any; }) => {
+                            return {
+                                create: i,
+                                update: i,
+                                where: { id: i.id ?? -1 }
+                            }
+                        })
+                    }}),
+                    ...(spellLevel0 && {spellLevel0: {
+                        update: {
+                            totalSpells: spellLevel0?.totalSpells,
+                            usedSpells: spellLevel0?.usedSpells,
+                            spells: {
+                                upsert: spellLevel1.spells?.map((i: { id: any; }) => {
+                                    return {
+                                        create: i,
+                                        update: i,
+                                        where: { id: i.id ?? -1 }
+                                    }
+                                })   
+                            }
+                        }, 
+                    }}),
+                    ...(spellLevel1 && { spellLevel1: {
+                        update: {
+                            totalSpells: spellLevel1?.totalSpells,
+                            usedSpells: spellLevel1?.usedSpells,
+                            spells: {
+                                upsert: spellLevel1.spells?.map((i: { id: any; }) => {
+                                    return {
+                                        create: i,
+                                        update: i,
+                                        where: { id: i.id ?? -1 }
+                                    }
+                                })   
+                            }
+                        }
+                    }}),
+                    ...(spellLevel2 && {spellLevel2: {
+                        update: {
+                            totalSpells: spellLevel2?.totalSpells,
+                            usedSpells: spellLevel2?.usedSpells,
+                            spells: {
+                                upsert: spellLevel2.spells?.map((i: { id: any; }) => {
+                                    return {
+                                        create: i,
+                                        update: i,
+                                        where: { id: i.id ?? -1 }
+                                    }
+                                })   
+                            }
+                        }  
+                    }}),
+                    ...(spellLevel3 && { spellLevel3: {
+                        update: {
+                            totalSpells: spellLevel3?.totalSpells,
+                            usedSpells: spellLevel3?.usedSpells,
+                            spells: {
+                                upsert: spellLevel3.spells?.map((i: { id: any; }) => {
+                                    return {
+                                        create: i,
+                                        update: i,
+                                        where: { id: i.id ?? -1 }
+                                    }
+                                })   
+                            }
+                        }, 
+                    }}),
+                    ...(spellLevel4 && {spellLevel4: {
+                        update: {
+                            totalSpells: spellLevel4?.totalSpells,
+                            usedSpells: spellLevel4?.usedSpells,
+                            spells: {
+                                upsert: spellLevel4.spells?.map((i: { id: any; }) => {
+                                    return {
+                                        create: i,
+                                        update: i,
+                                        where: { id: i.id ?? -1 }
+                                    }
+                                })   
+                            }
+                        },
+                    }}),
+                    ...(spellLevel5 && { spellLevel5: {
+                        update: {
+                            totalSpells: spellLevel5?.totalSpells,
+                            usedSpells: spellLevel5?.usedSpells,
+                            spells: {
+                                upsert: spellLevel5.spells?.map((i: { id: any; }) => {
+                                    return {
+                                        create: i,
+                                        update: i,
+                                        where: { id: i.id ?? -1 }
+                                    }
+                                })   
+                            }
+                        },
+                    }}),
+                    ...(spellLevel6 &&  { spellLevel6: {
+                        update: {
+                            totalSpells: spellLevel6?.totalSpells,
+                            usedSpells: spellLevel6?.usedSpells,
+                            spells: {
+                                upsert: spellLevel6.spells?.map((i: { id: any; }) => {
+                                    return {
+                                        create: i,
+                                        update: i,
+                                        where: { id: i.id ?? -1 }
+                                    }
+                                })   
+                            }
+                        },
+                    }}),
+                    ...(spellLevel7 && { spellLevel7: {
+                        update: {
+                            totalSpells: spellLevel7?.totalSpells,
+                            usedSpells: spellLevel7?.usedSpells,
+                            spells: {
+                                upsert: spellLevel7.spells?.map((i: { id: any; }) => {
+                                    return {
+                                        create: i,
+                                        update: i,
+                                        where: { id: i.id ?? -1 }
+                                    }
+                                })   
+                            }
+                        },
+                    }}),
+                    ...(spellLevel8 && { spellLevel8: {
+                        update: {
+                            totalSpells: spellLevel8?.totalSpells,
+                            usedSpells: spellLevel8?.usedSpells,
+                            spells: {
+                                upsert: spellLevel8.spells?.map((i: { id: any; }) => {
+                                    return {
+                                        create: i,
+                                        update: i,
+                                        where: { id: i.id ?? -1 }
+                                    }
+                            })   
+                        }
+                        },  
+                    }}),
+                    ...(spellLevel9 && { spellLevel9: {
+                        update: {
+                            totalSpells: spellLevel9?.totalSpells,
+                            usedSpells: spellLevel9?.usedSpells,
+                            spells: {
+                                upsert: spellLevel9.spells?.map((i: { id: any; }) => {
+                                    return {
+                                        create: i,
+                                        update: i,
+                                        where: { id: i.id ?? -1 }
+                                    }
+                                })   
+                            }
+                        }, 
+                    }}),
+                    ...(history && { history }),
+                    ...(notes && { notes }),
+                    ...(abilityCheck && { abilityCheck: {
+                        update: abilityCheck
+                    }}),
+                    ...(savingThrows && { savingThrows: {
+                        update: savingThrows
+                    }})
+                }
+            });
+            
+            return character;
+        }else{
+            return null;
+        }
+    }
     async GetAllCharactersFromAllUsers(){
         const characters = await this.prismaClient.character.findMany()
         
