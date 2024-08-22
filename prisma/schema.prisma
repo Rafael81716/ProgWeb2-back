@@ -43,7 +43,6 @@ model Spell{
 
 model SpellLevel{
   id Int @id @default (autoincrement())
-  spellLevelName String?
   totalSpells Int?
   usedSpells Int?
   spells Spell[]

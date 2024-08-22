@@ -104,18 +104,106 @@ export const characterSchema = Joi.object({
             description: Joi.string(),
         })
     ),
-    spellCasting: Joi.array().items(
-        Joi.object({
-            spells: Joi.array().items(
-                Joi.object({
-                    name: Joi.string(),
-                    effect: Joi.string()
-                })
-            ),
-            totalSpells: Joi.number().required(),
-            actualSpells: Joi.number(),
-        })
-    ),
+    spellLevel0: Joi.object({
+        totalSpells: Joi.number(),
+        usedSpells: Joi.number(),
+        spells: Joi.array().items(
+            Joi.object({
+                name: Joi.string(),
+                effect: Joi.string(),
+            })
+        ) 
+    }),
+    spellLevel1: Joi.object({
+        totalSpells: Joi.number(),
+        usedSpells: Joi.number(),
+        spells: Joi.array().items(
+            Joi.object({
+                name: Joi.string(),
+                effect: Joi.string(),
+            })
+        ) 
+    }),
+    spellLevel2: Joi.object({
+        totalSpells: Joi.number(),
+        usedSpells: Joi.number(),
+        spells: Joi.array().items(
+            Joi.object({
+                name: Joi.string(),
+                effect: Joi.string(),
+            })
+        ) 
+    }),
+    spellLevel3: Joi.object({
+        totalSpells: Joi.number(),
+        usedSpells: Joi.number(),
+        spells: Joi.array().items(
+            Joi.object({
+                name: Joi.string(),
+                effect: Joi.string(),
+            })
+        ) 
+    }),
+    spellLevel4: Joi.object({
+        totalSpells: Joi.number(),
+        usedSpells: Joi.number(),
+        spells: Joi.array().items(
+            Joi.object({
+                name: Joi.string(),
+                effect: Joi.string(),
+            })
+        ) 
+    }),
+    spellLevel5: Joi.object({
+        totalSpells: Joi.number(),
+        usedSpells: Joi.number(),
+        spells: Joi.array().items(
+            Joi.object({
+                name: Joi.string(),
+                effect: Joi.string(),
+            })
+        ) 
+    }),
+    spellLevel6: Joi.object({
+        totalSpells: Joi.number(),
+        usedSpells: Joi.number(),
+        spells: Joi.array().items(
+            Joi.object({
+                name: Joi.string(),
+                effect: Joi.string(),
+            })
+        ) 
+    }),
+    spellLevel7: Joi.object({
+        totalSpells: Joi.number(),
+        usedSpells: Joi.number(),
+        spells: Joi.array().items(
+            Joi.object({
+                name: Joi.string(),
+                effect: Joi.string(),
+            })
+        ) 
+    }),
+    spellLevel8: Joi.object({
+        totalSpells: Joi.number(),
+        usedSpells: Joi.number(),
+        spells: Joi.array().items(
+            Joi.object({
+                name: Joi.string(),
+                effect: Joi.string(),
+            })
+        ) 
+    }),
+    spellLevel9: Joi.object({
+        totalSpells: Joi.number(),
+        usedSpells: Joi.number(),
+        spells: Joi.array().items(
+            Joi.object({
+                name: Joi.string(),
+                effect: Joi.string(),
+            })
+        ) 
+    }),
     history: Joi.string(),
     notes: Joi.string(),
     personalityTrait: Joi.string(),

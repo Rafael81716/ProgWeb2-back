@@ -25,10 +25,6 @@ export class CharacterService {
             lifeDie,
             weapons,
             inventory,
-            totalSpells,
-            usedSpells,
-            spells,
-            spellLevelName,
             history,
             notes,
             abilityCheck,
@@ -48,7 +44,17 @@ export class CharacterService {
             temporaryHitPoints,
             talents,
             weakness,
-            spellCD
+            spellCD,
+            spellLevel0,
+            spellLevel1,
+            spellLevel2,
+            spellLevel3,
+            spellLevel4,
+            spellLevel5,
+            spellLevel6,
+            spellLevel7,
+            spellLevel8,
+            spellLevel9
         } = body
 
 
@@ -101,15 +107,35 @@ export class CharacterService {
                             inventory: {
                                 create: inventory
                             },
-                            spellCasting: {
-                                create: {
-                                    totalSpells,
-                                    usedSpells,
-                                    spellLevelName,
-                                    spells : {
-                                        create: spells
-                                    }
-                                }
+                            spellLevel0: {
+                                create: spellLevel0
+                            },
+                            spellLevel1: {
+                                create: spellLevel1
+                            },
+                            spellLevel2: {
+                                create: spellLevel2
+                            },
+                            spellLevel3: {
+                                create: spellLevel3
+                            },
+                            spellLevel4: {
+                                create: spellLevel4
+                            },
+                            spellLevel5: {
+                                create: spellLevel5
+                            },
+                            spellLevel6: {
+                                create: spellLevel6
+                            },
+                            spellLevel7: {
+                                create: spellLevel7
+                            },
+                            spellLevel8: {
+                                create: spellLevel8
+                            },
+                            spellLevel9: {
+                                create: spellLevel9
                             },
                             history,
                             notes,
@@ -136,7 +162,16 @@ export class CharacterService {
                 attributes: true,
                 inventory: true,
                 savingThrows: true,
-                spellCasting: true,
+                spellLevel0: true,
+                spellLevel1: true,
+                spellLevel2: true,
+                spellLevel3: true,
+                spellLevel4: true,
+                spellLevel5: true,
+                spellLevel6: true,
+                spellLevel7: true,
+                spellLevel8: true,
+                spellLevel9: true,
                 user: false,
                 weapons: true
             }
@@ -191,7 +226,6 @@ export class CharacterService {
             lifeDie,
             weapons,
             inventory,
-            spellCasting,
             history,
             notes,
             abilityCheck,
@@ -211,7 +245,17 @@ export class CharacterService {
             temporaryHitPoints,
             talents,
             weakness,
-            spellCD
+            spellCD,
+            spellLevel0,
+            spellLevel1,
+            spellLevel2,
+            spellLevel3,
+            spellLevel4,
+            spellLevel5,
+            spellLevel6,
+            spellLevel7,
+            spellLevel8,
+            spellLevel9
         } = body
         
         const user = await this.userService.getOneUser(userId  as number)
@@ -274,14 +318,135 @@ export class CharacterService {
                             }
                         })
                     },
-                    spellCasting: {
-                        upsert: spellCasting.map((s: { id: any; }) => {
+                    spellLevel0: {
+                        update: {
+                            totalSpells: spellLevel0.totalSpells,
+                            usedSpells: spellLevel0.usedSpells,
+                        },
+                        upsert: spellLevel0.spells.map((i: { id: any; }) => {
                             return {
-                                create: s,
-                                update: s,
-                                where: { id: s.id ?? -1 }
+                                create: i,
+                                update: i,
+                                where: { id: i.id ?? -1 }
                             }
-                        })
+                        })   
+                    },
+                    spellLevel1: {
+                        update: {
+                            totalSpells: spellLevel1.totalSpells,
+                            usedSpells: spellLevel1.usedSpells,
+                        },
+                        upsert: spellLevel1.spells.map((i: { id: any; }) => {
+                            return {
+                                create: i,
+                                update: i,
+                                where: { id: i.id ?? -1 }
+                            }
+                        })   
+                    },
+                    spellLevel2: {
+                        update: {
+                            totalSpells: spellLevel2.totalSpells,
+                            usedSpells: spellLevel2.usedSpells,
+                        },
+                        upsert: spellLevel2.spells.map((i: { id: any; }) => {
+                            return {
+                                create: i,
+                                update: i,
+                                where: { id: i.id ?? -1 }
+                            }
+                        })   
+                    },
+                    spellLevel3: {
+                        update: {
+                            totalSpells: spellLevel3.totalSpells,
+                            usedSpells: spellLevel3.usedSpells,
+                        },
+                        upsert: spellLevel3.spells.map((i: { id: any; }) => {
+                            return {
+                                create: i,
+                                update: i,
+                                where: { id: i.id ?? -1 }
+                            }
+                        })   
+                    },
+                    spellLevel4: {
+                        update: {
+                            totalSpells: spellLevel4.totalSpells,
+                            usedSpells: spellLevel4.usedSpells,
+                        },
+                        upsert: spellLevel4.spells.map((i: { id: any; }) => {
+                            return {
+                                create: i,
+                                update: i,
+                                where: { id: i.id ?? -1 }
+                            }
+                        })   
+                    },
+                    spellLevel5: {
+                        update: {
+                            totalSpells: spellLevel5.totalSpells,
+                            usedSpells: spellLevel5.usedSpells,
+                        },
+                        upsert: spellLevel5.spells.map((i: { id: any; }) => {
+                            return {
+                                create: i,
+                                update: i,
+                                where: { id: i.id ?? -1 }
+                            }
+                        })   
+                    },
+                    spellLevel6: {
+                        update: {
+                            totalSpells: spellLevel6.totalSpells,
+                            usedSpells: spellLevel6.usedSpells,
+                        },
+                        upsert: spellLevel6.spells.map((i: { id: any; }) => {
+                            return {
+                                create: i,
+                                update: i,
+                                where: { id: i.id ?? -1 }
+                            }
+                        })   
+                    },
+                    spellLevel7: {
+                        update: {
+                            totalSpells: spellLevel7.totalSpells,
+                            usedSpells: spellLevel7.usedSpells,
+                        },
+                        upsert: spellLevel7.spells.map((i: { id: any; }) => {
+                            return {
+                                create: i,
+                                update: i,
+                                where: { id: i.id ?? -1 }
+                            }
+                        })   
+                    },
+                    spellLevel8: {
+                        update: {
+                            totalSpells: spellLevel8.totalSpells,
+                            usedSpells: spellLevel8.usedSpells,
+                        },
+                        upsert: spellLevel8.spells.map((i: { id: any; }) => {
+                            return {
+                                create: i,
+                                update: i,
+                                where: { id: i.id ?? -1 }
+                            }
+                        })   
+                    },
+                    spellLevel9: {
+                        update: {
+                            totalSpells: spellLevel9.totalSpells,
+                            usedSpells: spellLevel9.usedSpells,
+                        },
+                        upsert: spellLevel9.spells.map((i: { id: any; }) => {
+                            return {
+                                create: i,
+                                update: i,
+                                where: { id: i.id ?? -1 }
+                            }
+                        })   
                     },
                     history,
                     notes,
