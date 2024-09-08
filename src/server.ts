@@ -1,17 +1,30 @@
 import express, { Request, Response, request } from 'express';
 import { characterRouter } from './routes/CharacterRouter';
 import { userRouter } from './routes/UserRouter';
+import { LoginRouter } from './routes/LoginRouter';
+import { UserController } from './controllers/UserController';
+import { tokenValidated } from './controllers/LoginController';
+
+
+const userController = new UserController();
+
 
 
 const app = express();
 const port = 3000;
 app.use(express.json());
-app.use(characterRouter);
-app.use(userRouter);
 
 app.get('/', (req: Request, res: Response) => {
   res.send('Hello, world!');
 });
+
+app.post('/user', userController.createUser);
+app.use(LoginRouter);
+
+app.use('*', tokenValidated);
+app.use(characterRouter);
+app.use(userRouter);
+
 
 app.listen(port, () => {
   console.log(`Servidor rodando em http://localhost:${port}`);

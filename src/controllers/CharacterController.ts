@@ -123,6 +123,9 @@ export class CharacterController {
     } 
     async getAllCharactersFromAllUsers(request: Request, response: Response){
         try{
+            const isAdmin = JSON.parse(request.headers['user'] as string).isAdmin
+            if(!isAdmin) return response.status(403).json("You dont have permission to call this method")
+                
             const characterService = new CharacterService();
             const responseOutput = await characterService.GetAllCharactersFromAllUsers()
             
