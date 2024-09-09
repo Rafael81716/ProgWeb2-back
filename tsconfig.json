@@ -9,7 +9,7 @@
     },
     "include": [
       "./**/*.ts"
-    ],
+, "jest.config.ts"    ],
     "exclude": [
       "dist",
       "node_modules",
