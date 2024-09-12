@@ -5,16 +5,13 @@ import { UserService } from './../services/UserService'; // Importa o UserServic
 
 // Mock do Prisma Client
 const prismaMock = mockDeep<PrismaClient>();
-
+const userServiceMock = mockDeep<UserService>();
 describe('Character Service', () => {
     let characterService: CharacterService;
-    let userService: UserService;
-
     beforeAll(() => {
         characterService = new CharacterService();
-        userService = new UserService();
         characterService.prismaClient = prismaMock;
-        userService.prismaClient = prismaMock;
+        characterService.userService = userServiceMock;
     });
     describe('create a new Character', () => {
         it('should create a new character for a user', async () => {
@@ -391,13 +388,7 @@ describe('Character Service', () => {
         })
     })
     describe("Get all characters", () => {
-        /*it("should return all characters from a user",async () => {
-            userService = {
-                getOneUser: jest.fn()
-              } as unknown as UserService;
-          
-            // Instância do CharacterService com UserService mockado
-            characterService = new CharacterService();
+        it("should return all characters from a user",async () => {
             const id = 1;
             const spellLevelMock1 = {
                 spells: [{ id }] as Spell[],
@@ -411,7 +402,7 @@ describe('Character Service', () => {
                 usedSpells: 0,
                 totalSpells: 0,
             }
-            const mockUser = [{ 
+            const mockUser = { 
                 id: 1,
                 email: 'test12@example.com',
                 password: '1234569',
@@ -633,17 +624,16 @@ describe('Character Service', () => {
                     userId: id
                 }
                 ]
-            }]
+            }
 
-            prismaMock.user.findMany.mockResolvedValue(mockUser);
+            userServiceMock.getOneUser.mockResolvedValue(mockUser);
 
             const result = await characterService.getAllCharacters(id);
 
-            expect(result).toEqual(mockUser);
-            expect(result?.length).toEqual(mockUser.length);
-            expect(userService.getOneUser).toHaveBeenCalledWith(Number(id));
+            expect(result).toEqual(mockUser.characters);
+            expect(result?.length).toEqual(mockUser.characters.length);
+            expect(userServiceMock.getOneUser).toHaveBeenCalledWith(Number(id));
         })
-            */
     })
 
     describe('Delete one character from a user', () => {
@@ -772,7 +762,7 @@ describe('Character Service', () => {
         })
     })
     describe('Update a character from a user', () => {
-        /*t('Should updated all information sucessfully', async () => {
+        it('Should updated all information sucessfully', async () => {
             const id = 1;
             const spellLevelMock1 = {
                 spells: [{ id }] as Spell[],
@@ -784,7 +774,7 @@ describe('Character Service', () => {
             {  
                 id: 1,
                 name: "Caranthir",
-                playerName: "Rafael1",
+                playerName: "Rafael Sousa",
                 class: "Ladino",
                 level: 1,
                 attributeId: id,
@@ -1008,7 +998,7 @@ describe('Character Service', () => {
             {  
                 id: 1,
                 name: "Caranthir",
-                playerName: "Rafael1",
+                playerName: "Rafael Sousa",
                 class: "Ladino",
                 level: 1,
                 attributeId: id,
@@ -1114,8 +1104,7 @@ describe('Character Service', () => {
             }
             
 
-            prismaMock.user.findUnique.mockResolvedValue(mockUser);
-
+            userServiceMock.getOneUser.mockResolvedValue(mockUser)
             prismaMock.character.update.mockResolvedValue(mockUpdatedCharacter);
 
             const result = await characterService.updateCharacter(body, id, id);
@@ -1124,10 +1113,10 @@ describe('Character Service', () => {
             expect(prismaMock.user.findUnique).toHaveBeenCalledWith({
                 where: { id: Number(id) }
             });
-        })*/
+        })
     })
     describe('Patch a character from a user', () => {
-        /*t('Should updated all information sucessfully', async () => {
+        it('Should updated all information sucessfully', async () => {
             const id = 1;
             const spellLevelMock1 = {
                 spells: [{ id }] as Spell[],
@@ -1468,18 +1457,16 @@ describe('Character Service', () => {
                 userId: id
             }
             
-
-            prismaMock.user.findUnique.mockResolvedValue(mockUser);
-
+            userServiceMock.getOneUser.mockResolvedValue(mockUser)
             prismaMock.character.update.mockResolvedValue(mockUpdatedCharacter);
 
-            const result = await characterService.updateCharacter(body, id, id);
+            const result = await characterService.patchCharacter(body, id, id);
 
             expect(result).toEqual(mockUpdatedCharacter);
             expect(prismaMock.user.findUnique).toHaveBeenCalledWith({
                 where: { id: Number(id) }
             });
-        })*/
+        })
     })
     describe('Get All Characters From All Users', () => {
         it('should return all characters from database', async () => {
