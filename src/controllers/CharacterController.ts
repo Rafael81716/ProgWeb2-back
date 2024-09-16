@@ -15,7 +15,7 @@ export class CharacterController {
                 if(responseOutput != null){
                     return response.status(201).json(responseOutput);
                 }else{
-                    return response.status(404).json();
+                    return response.status(404).json("User Id does not exist");
                 }
                 }else{
                     console.log(validated.error.message)
@@ -36,7 +36,7 @@ export class CharacterController {
             if(responseOutput != null){
                 return response.status(204).json(responseOutput);
             }else{
-                return response.status(404).json();
+                return response.status(404).json("User Id or Character Id does not exist");
             }
         }catch(error){
             console.error('Error creating User: ', error);
@@ -53,7 +53,7 @@ export class CharacterController {
             if(responseOutput != null){
                 return response.status(200).json(responseOutput);
             }else{
-                return response.status(404).json();
+                return response.status(404).json("User Id or Character Id does not exist");
             }
         }catch(error){
             console.error('Error creating User: ', error);
@@ -70,7 +70,7 @@ export class CharacterController {
             if(responseOutput != null){
                 return response.status(200).json(responseOutput);
             }else{
-                return response.status(404).json();
+                return response.status(404).json("User Id does not exist");
             }
         }catch(error){
             console.error('Error creating User: ', error);
@@ -89,7 +89,7 @@ export class CharacterController {
                 if(responseOutput != null){
                     return response.status(201).json(responseOutput);
                 }else{
-                    return response.status(404).json();
+                    return response.status(404).json("User Id or Character Id does not exist");
                 }
             }else{
                 return response.status(400).json({ error: validated.error.message })
@@ -111,7 +111,7 @@ export class CharacterController {
                 if(responseOutput != null){
                     return response.status(201).json(responseOutput);
                 }else{
-                    return response.status(404).json();
+                    return response.status(404).json("User Id or Character Id does not exist");
                 }
             }else{
                 return response.status(400).json({ error: validated.error.message })
@@ -129,11 +129,7 @@ export class CharacterController {
             const characterService = new CharacterService();
             const responseOutput = await characterService.GetAllCharactersFromAllUsers()
             
-            if(responseOutput != null){
-                return response.status(200).json(responseOutput);
-            }else{
-                return response.status(404).json();
-            }
+            return response.status(200).json(responseOutput);
         }catch(error){
             console.error('Error creating User: ', error);
             return response.status(500).json({ error: "An error has ocurred while fetching the user." });
