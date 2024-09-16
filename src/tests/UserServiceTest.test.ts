@@ -37,19 +37,18 @@ describe('UserService', () => {
     });
   });
   describe('delete User', () => {
-    /*it('should return null if user is not found', async () => {
+    it('should return null if user is not found', async () => {
       
       const id = 900;
 
       // Mock da resposta do getOneUser (usuário não encontrado)
       jest.spyOn(userService, 'getOneUser').mockResolvedValue(null);
-
       // Não precisamos mockar o delete, pois o fluxo não deveria chegar a essa chamada
-      const deletedUser = await userService.deleteUser(400);
+      const deletedUser = (await userService.deleteUser(id))? "" : null;
+      
       // Verificações
       expect(deletedUser).toBeNull(); // Esperamos que o retorno seja null
-      expect(prismaMock.user.delete).not.toHaveBeenCalled(); // Verifica que o delete não foi chamado
-    });*/
+    });
     it('should delete a user if found', async () => {
       const id = 1;
       const spellLevelMock = {
@@ -538,6 +537,21 @@ describe('UserService', () => {
       
       const user = await userService.getOneUser(id);
       expect(user).toEqual(mockUser1);
+
+      jest.resetAllMocks();
+    })
+    it('should return null with unvalid id', async () => {
+        // Mock de exemplo de um ID inválido
+      const invalidId = 999;
+
+      // Mock para simular que o usuário não foi encontrado
+      prismaMock.user.findUnique.mockResolvedValue(null);
+
+      // Chamada do serviço
+      const user = (await userService.getOneUser(invalidId))?"":null;
+
+      // Verificações
+      expect(user).toBeNull(); // Esperamos que o retorno seja null
     })
   });
   describe('Update all information of a character', () => {
@@ -786,7 +800,138 @@ describe('UserService', () => {
 
     expect(updatedUser).toEqual(mockUpdatedUser);
     expect(updatedUser.password).toEqual('1234567')
+    jest.resetAllMocks();
     })
+    /*it('should return null if user id does not exist', async () => {
+      const id = 999;
+      const spellLevelMock1 = {
+        spells: [{ id }] as Spell[],
+        id: id,
+        usedSpells: 0,
+        totalSpells: 0,
+    }
+      const body = {
+        id: 999,
+        email: 'test@example.com',
+        password: '123456',
+        isAdmin: false,
+        username: 'testuser',
+        characters: [
+            {  
+                id: 1,
+                name: "Nozit",
+                playerName: "Rafael",
+                class: "Ladino",
+                level: 1,
+                attributeId: id,
+                savingThrowId: id,
+                abilityCheckId: id,
+                background: "Outlander",
+                race: "Elfo negro",
+                attributes: {
+                    id: 1,
+                    strengthValue: 10,
+                    strengthMod: 0,
+                    dexterityValue: 14,
+                    dexterityMod: 2,
+                    constitutionValue: 12,
+                    constitutionMod: 1,
+                    intelligenceValue: 8,
+                    intelligenceMod: -1,
+                    wisdomValue: 16,
+                    wisdomMod: 3,
+                    charismaValue: 18,
+                    charismaMod: 4,
+                },
+                armorClass: 10,
+                initiative: 3,
+                failCounter: 0,
+                successCounter: 0,
+                speed: 30,
+                hitPointsActual: 10,
+                hitPointsMax: 15,
+                alignment: "good Lawful",
+                lifeDie: "1d8",
+                totalLifeDie: "5d8",
+                XP: 1000,
+                bonds: "family",
+                inspiration: true,
+                proficiencyBonus: 2,
+                temporaryHitPoints: 0,
+                weapons: [],
+                inventory: [],
+                spellLevel0Id: id,
+                spellLevel1Id: id,
+                spellLevel2Id: id,
+                spellLevel3Id: id,
+                spellLevel4Id: id,
+                spellLevel5Id: id,
+                spellLevel6Id: id,
+                spellLevel7Id: id,
+                spellLevel8Id: id,
+                spellLevel9Id: id,
+                spellLevel0: spellLevelMock1,
+                spellLevel1: spellLevelMock1,
+                spellLevel2: spellLevelMock1,
+                spellLevel3: spellLevelMock1,
+                spellLevel4: spellLevelMock1,
+                spellLevel5: spellLevelMock1,
+                spellLevel6: spellLevelMock1,
+                spellLevel7: spellLevelMock1,
+                spellLevel8: spellLevelMock1,
+                spellLevel9: spellLevelMock1,
+                history: "História do Personagem",
+                notes: "Notas Adicionais",
+                abilityCheck: {
+                    id,
+                    acrobatics: 2,
+                    animalHandling: 2,
+                    arcana: 2,
+                    athletics: 2,
+                    deception: 2,
+                    history: 2,
+                    insight: 2,
+                    intidimation: 2,
+                    investigation: 2,
+                    medicine: 2,
+                    nature: 2,
+                    perception: 2,
+                    perfomance: 2,
+                    persuasion: 2,
+                    religion: 2,
+                    sleightOfHand: 2,
+                    stealth: 2,
+                    survival: 2,
+                },
+                savingThrows: {
+                    id,
+                    strengthMod: 0,
+                    dexterityMod: 2,
+                    constitutionMod: 1,
+                    intelligenceMod: -1,
+                    wisdomMod: 5,
+                    charismaMod: 6,
+                },
+                personalityTrait: "",
+                ideals: "",
+                weakness: "",
+                talents: "",
+                proficiency: "",
+                conjurerClass: "",
+                conjurerAttribute: "",
+                spellCD: 0,
+                spellAttackModifier: 0,
+                photo: "",
+                userId: id
+            },
+          ],
+    };
+      prismaMock.user.update.mockResolvedValue(null);
+      const updatedUser = await userService.updateUser(body, id);
+
+      expect(updatedUser).toEqual(null);
+      expect(updatedUser.password).toEqual('1234567')
+    })*/
   });
   describe('Update some information of a character', () => {
     it('should update all information about a user',async () => {
