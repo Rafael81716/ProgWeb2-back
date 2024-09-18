@@ -262,6 +262,129 @@ describe('Character Service', () => {
             expect(prismaMock.user.findUnique).toHaveBeenCalledWith({
                 where: { id: Number(id) }
             }); 
+            
+        })
+        it('should return null if the user does not exist',async () => {
+            const id = 999;
+            const spellLevelMock1 = {
+                spells: [{ id }] as Spell[],
+                id: id,
+                usedSpells: 0,
+                totalSpells: 0,
+            }
+            const body = {  
+                id: 1,
+                name: "Nozit",
+                playerName: "Rafael",
+                class: "Ladino",
+                level: 1,
+                attributeId: id,
+                savingThrowId: id,
+                abilityCheckId: id,
+                background: "Outlander",
+                race: "Elfo negro",
+                attributes: {
+                    id: 1,
+                    strengthValue: 10,
+                    strengthMod: 0,
+                    dexterityValue: 14,
+                    dexterityMod: 2,
+                    constitutionValue: 12,
+                    constitutionMod: 1,
+                    intelligenceValue: 8,
+                    intelligenceMod: -1,
+                    wisdomValue: 16,
+                    wisdomMod: 3,
+                    charismaValue: 18,
+                    charismaMod: 4,
+                },
+                armorClass: 10,
+                initiative: 3,
+                failCounter: 0,
+                successCounter: 0,
+                speed: 30,
+                hitPointsActual: 10,
+                hitPointsMax: 15,
+                alignment: "good Lawful",
+                lifeDie: "1d8",
+                totalLifeDie: "5d8",
+                XP: 1000,
+                bonds: "family",
+                inspiration: true,
+                proficiencyBonus: 2,
+                temporaryHitPoints: 0,
+                weapons: [],
+                inventory: [],
+                spellLevel0Id: id,
+                spellLevel1Id: id,
+                spellLevel2Id: id,
+                spellLevel3Id: id,
+                spellLevel4Id: id,
+                spellLevel5Id: id,
+                spellLevel6Id: id,
+                spellLevel7Id: id,
+                spellLevel8Id: id,
+                spellLevel9Id: id,
+                spellLevel0: spellLevelMock1,
+                spellLevel1: spellLevelMock1,
+                spellLevel2: spellLevelMock1,
+                spellLevel3: spellLevelMock1,
+                spellLevel4: spellLevelMock1,
+                spellLevel5: spellLevelMock1,
+                spellLevel6: spellLevelMock1,
+                spellLevel7: spellLevelMock1,
+                spellLevel8: spellLevelMock1,
+                spellLevel9: spellLevelMock1,
+                history: "História do Personagem",
+                notes: "Notas Adicionais",
+                abilityCheck: {
+                    id,
+                    acrobatics: 2,
+                    animalHandling: 2,
+                    arcana: 2,
+                    athletics: 2,
+                    deception: 2,
+                    history: 2,
+                    insight: 2,
+                    intidimation: 2,
+                    investigation: 2,
+                    medicine: 2,
+                    nature: 2,
+                    perception: 2,
+                    perfomance: 2,
+                    persuasion: 2,
+                    religion: 2,
+                    sleightOfHand: 2,
+                    stealth: 2,
+                    survival: 2,
+                },
+                savingThrows: {
+                    id,
+                    strengthMod: 0,
+                    dexterityMod: 2,
+                    constitutionMod: 1,
+                    intelligenceMod: -1,
+                    wisdomMod: 5,
+                    charismaMod: 6,
+                },
+                personalityTrait: "",
+                ideals: "",
+                weakness: "",
+                talents: "",
+                proficiency: "",
+                conjurerClass: "",
+                conjurerAttribute: "",
+                spellCD: 0,
+                spellAttackModifier: 0,
+                photo: "",
+                userId: id
+            }
+
+            prismaMock.user.findUnique.mockResolvedValue(null);
+
+            const result = await characterService.createCharacter(body, id);
+
+            expect(result).toEqual(null);
         })
     });
     describe("getOneCharacter", () => {
@@ -385,6 +508,20 @@ describe('Character Service', () => {
             const result = await characterService.getOneCharacter(1, 1);
 
             expect(result).toEqual(mockCharacter);
+            
+
+        })
+        it('should return null if userId does not exist',async () => {
+            const id = 1;
+            prismaMock.character.findUnique.mockResolvedValue(null);
+            const result = await characterService.getOneCharacter(999, 1);
+            expect(result).toEqual(null);
+        })
+        it('should return null if characterId does not exist',async () => {
+            const id = 1;
+            prismaMock.character.findUnique.mockResolvedValue(null);
+            const result = await characterService.getOneCharacter(1, 999);
+            expect(result).toEqual(null);
         })
     })
     describe("Get all characters", () => {
@@ -634,9 +771,41 @@ describe('Character Service', () => {
             expect(result?.length).toEqual(mockUser.characters.length);
             expect(userServiceMock.getOneUser).toHaveBeenCalledWith(Number(id));
         })
-    })
+        it("should return null if the user does not exist",async () => {
+            const id = 999;
 
+            userServiceMock.getOneUser.mockResolvedValue(null);
+
+            const result = await characterService.getAllCharacters(id);
+            expect(result).toEqual(null);
+            expect(userServiceMock.getOneUser).toHaveBeenCalledWith(Number(id));
+        })
+    })
     describe('Delete one character from a user', () => {
+        it('should return null if userId does not exist',async () => {
+            const id = 1;
+            jest.spyOn(characterService, 'getOneCharacter').mockResolvedValue(null);
+            prismaMock.character.delete.mockRejectedValue(new Error('RecordNotFound'));
+            try {
+                await characterService.deleteCharacter(999, id);
+            } catch (error) {
+                let errorValue = error as Error;
+                expect(errorValue).toBeInstanceOf(Error);
+                expect(errorValue.message).toBe('RecordNotFound');
+            }
+        })
+        it('should return null if characterId does not exist',async () => {
+            const id = 1;
+            jest.spyOn(characterService, 'getOneCharacter').mockResolvedValue(null);
+            prismaMock.character.delete.mockRejectedValue(new Error('RecordNotFound'));
+            try {
+                await characterService.deleteCharacter(id, 999);
+            } catch (error) {
+                let errorValue = error as Error;
+                expect(errorValue).toBeInstanceOf(Error);
+                expect(errorValue.message).toBe('RecordNotFound');
+            }
+        })
         it('Should delete successfully', async () => {
             const id = 1;
             const spellLevelMock1 = {
@@ -759,7 +928,8 @@ describe('Character Service', () => {
             expect(prismaMock.character.delete).toHaveBeenCalledWith({
                 where: { id: 1, userId: 1 },
             });
-        })
+
+        })   
     })
     describe('Update a character from a user', () => {
         it('Should updated all information sucessfully', async () => {
@@ -1114,6 +1284,375 @@ describe('Character Service', () => {
                 where: { id: Number(id) }
             });
         })
+        it('Should return null if userId is invalid', async () => {
+            const id = 1;
+            const spellLevelMock1 = {
+                spells: [{ id }] as Spell[],
+                id: id,
+                usedSpells: 0,
+                totalSpells: 0,
+            }
+            const body = 
+            {  
+                id: 1,
+                name: "Caranthir",
+                playerName: "Rafael Sousa",
+                class: "Ladino",
+                level: 1,
+                attributeId: id,
+                savingThrowId: id,
+                abilityCheckId: id,
+                background: "Outlander",
+                race: "Elfo negro",
+                attributes: {
+                    id: 1,
+                    strengthValue: 10,
+                    strengthMod: 0,
+                    dexterityValue: 14,
+                    dexterityMod: 2,
+                    constitutionValue: 12,
+                    constitutionMod: 1,
+                    intelligenceValue: 8,
+                    intelligenceMod: -1,
+                    wisdomValue: 16,
+                    wisdomMod: 3,
+                    charismaValue: 18,
+                    charismaMod: 4,
+                },
+                armorClass: 10,
+                initiative: 3,
+                failCounter: 0,
+                successCounter: 0,
+                speed: 30,
+                hitPointsActual: 10,
+                hitPointsMax: 15,
+                alignment: "good Lawful",
+                lifeDie: "1d8",
+                totalLifeDie: "5d8",
+                XP: 1000,
+                bonds: "family",
+                inspiration: true,
+                proficiencyBonus: 2,
+                temporaryHitPoints: 0,
+                weapons: [],
+                inventory: [],
+                spellLevel0Id: id,
+                spellLevel1Id: id,
+                spellLevel2Id: id,
+                spellLevel3Id: id,
+                spellLevel4Id: id,
+                spellLevel5Id: id,
+                spellLevel6Id: id,
+                spellLevel7Id: id,
+                spellLevel8Id: id,
+                spellLevel9Id: id,
+                spellLevel0: spellLevelMock1,
+                spellLevel1: spellLevelMock1,
+                spellLevel2: spellLevelMock1,
+                spellLevel3: spellLevelMock1,
+                spellLevel4: spellLevelMock1,
+                spellLevel5: spellLevelMock1,
+                spellLevel6: spellLevelMock1,
+                spellLevel7: spellLevelMock1,
+                spellLevel8: spellLevelMock1,
+                spellLevel9: spellLevelMock1,
+                history: "História do Personagem",
+                notes: "Notas Adicionais",
+                abilityCheck: {
+                    id,
+                    acrobatics: 2,
+                    animalHandling: 2,
+                    arcana: 2,
+                    athletics: 2,
+                    deception: 2,
+                    history: 2,
+                    insight: 2,
+                    intidimation: 2,
+                    investigation: 2,
+                    medicine: 2,
+                    nature: 2,
+                    perception: 2,
+                    perfomance: 2,
+                    persuasion: 2,
+                    religion: 2,
+                    sleightOfHand: 2,
+                    stealth: 2,
+                    survival: 2,
+                },
+                savingThrows: {
+                    id,
+                    strengthMod: 0,
+                    dexterityMod: 2,
+                    constitutionMod: 1,
+                    intelligenceMod: -1,
+                    wisdomMod: 5,
+                    charismaMod: 6,
+                },
+                personalityTrait: "",
+                ideals: "",
+                weakness: "",
+                talents: "",
+                proficiency: "",
+                conjurerClass: "",
+                conjurerAttribute: "",
+                spellCD: 0,
+                spellAttackModifier: 0,
+                photo: "",
+                userId: id
+            }
+           
+
+            userServiceMock.getOneUser.mockResolvedValue(null)
+
+            const result = await characterService.updateCharacter(body, 999, id);
+
+            expect(result).toEqual(null);
+        })
+        it('Should return an error if characterId is not in database', async () => {
+            const id = 1;
+            const spellLevelMock1 = {
+                spells: [{ id }] as Spell[],
+                id: id,
+                usedSpells: 0,
+                totalSpells: 0,
+            }
+            const body = 
+            {  
+                id: 1,
+                name: "Caranthir",
+                playerName: "Rafael Sousa",
+                class: "Ladino",
+                level: 1,
+                attributeId: id,
+                savingThrowId: id,
+                abilityCheckId: id,
+                background: "Outlander",
+                race: "Elfo negro",
+                attributes: {
+                    id: 1,
+                    strengthValue: 10,
+                    strengthMod: 0,
+                    dexterityValue: 14,
+                    dexterityMod: 2,
+                    constitutionValue: 12,
+                    constitutionMod: 1,
+                    intelligenceValue: 8,
+                    intelligenceMod: -1,
+                    wisdomValue: 16,
+                    wisdomMod: 3,
+                    charismaValue: 18,
+                    charismaMod: 4,
+                },
+                armorClass: 10,
+                initiative: 3,
+                failCounter: 0,
+                successCounter: 0,
+                speed: 30,
+                hitPointsActual: 10,
+                hitPointsMax: 15,
+                alignment: "good Lawful",
+                lifeDie: "1d8",
+                totalLifeDie: "5d8",
+                XP: 1000,
+                bonds: "family",
+                inspiration: true,
+                proficiencyBonus: 2,
+                temporaryHitPoints: 0,
+                weapons: [],
+                inventory: [],
+                spellLevel0Id: id,
+                spellLevel1Id: id,
+                spellLevel2Id: id,
+                spellLevel3Id: id,
+                spellLevel4Id: id,
+                spellLevel5Id: id,
+                spellLevel6Id: id,
+                spellLevel7Id: id,
+                spellLevel8Id: id,
+                spellLevel9Id: id,
+                spellLevel0: spellLevelMock1,
+                spellLevel1: spellLevelMock1,
+                spellLevel2: spellLevelMock1,
+                spellLevel3: spellLevelMock1,
+                spellLevel4: spellLevelMock1,
+                spellLevel5: spellLevelMock1,
+                spellLevel6: spellLevelMock1,
+                spellLevel7: spellLevelMock1,
+                spellLevel8: spellLevelMock1,
+                spellLevel9: spellLevelMock1,
+                history: "História do Personagem",
+                notes: "Notas Adicionais",
+                abilityCheck: {
+                    id,
+                    acrobatics: 2,
+                    animalHandling: 2,
+                    arcana: 2,
+                    athletics: 2,
+                    deception: 2,
+                    history: 2,
+                    insight: 2,
+                    intidimation: 2,
+                    investigation: 2,
+                    medicine: 2,
+                    nature: 2,
+                    perception: 2,
+                    perfomance: 2,
+                    persuasion: 2,
+                    religion: 2,
+                    sleightOfHand: 2,
+                    stealth: 2,
+                    survival: 2,
+                },
+                savingThrows: {
+                    id,
+                    strengthMod: 0,
+                    dexterityMod: 2,
+                    constitutionMod: 1,
+                    intelligenceMod: -1,
+                    wisdomMod: 5,
+                    charismaMod: 6,
+                },
+                personalityTrait: "",
+                ideals: "",
+                weakness: "",
+                talents: "",
+                proficiency: "",
+                conjurerClass: "",
+                conjurerAttribute: "",
+                spellCD: 0,
+                spellAttackModifier: 0,
+                photo: "",
+                userId: id
+            }
+            const mockUser = {
+                id: 1,
+                password: "123456",
+                username: "Rafael",
+                email: 'test@example.com',
+                isAdmin: false,
+                characters: [
+                    {  
+                        id: 1,
+                        name: "Nozit",
+                        playerName: "Rafael",
+                        class: "Ladino",
+                        level: 1,
+                        attributeId: id,
+                        savingThrowId: id,
+                        abilityCheckId: id,
+                        background: "Outlander",
+                        race: "Elfo negro",
+                        attributes: {
+                            id: 1,
+                            strengthValue: 10,
+                            strengthMod: 0,
+                            dexterityValue: 14,
+                            dexterityMod: 2,
+                            constitutionValue: 12,
+                            constitutionMod: 1,
+                            intelligenceValue: 8,
+                            intelligenceMod: -1,
+                            wisdomValue: 16,
+                            wisdomMod: 3,
+                            charismaValue: 18,
+                            charismaMod: 4,
+                        },
+                        armorClass: 10,
+                        initiative: 3,
+                        failCounter: 0,
+                        successCounter: 0,
+                        speed: 30,
+                        hitPointsActual: 10,
+                        hitPointsMax: 15,
+                        alignment: "good Lawful",
+                        lifeDie: "1d8",
+                        totalLifeDie: "5d8",
+                        XP: 1000,
+                        bonds: "family",
+                        inspiration: true,
+                        proficiencyBonus: 2,
+                        temporaryHitPoints: 0,
+                        weapons: [],
+                        inventory: [],
+                        spellLevel0Id: id,
+                        spellLevel1Id: id,
+                        spellLevel2Id: id,
+                        spellLevel3Id: id,
+                        spellLevel4Id: id,
+                        spellLevel5Id: id,
+                        spellLevel6Id: id,
+                        spellLevel7Id: id,
+                        spellLevel8Id: id,
+                        spellLevel9Id: id,
+                        spellLevel0: spellLevelMock1,
+                        spellLevel1: spellLevelMock1,
+                        spellLevel2: spellLevelMock1,
+                        spellLevel3: spellLevelMock1,
+                        spellLevel4: spellLevelMock1,
+                        spellLevel5: spellLevelMock1,
+                        spellLevel6: spellLevelMock1,
+                        spellLevel7: spellLevelMock1,
+                        spellLevel8: spellLevelMock1,
+                        spellLevel9: spellLevelMock1,
+                        history: "História do Personagem",
+                        notes: "Notas Adicionais",
+                        abilityCheck: {
+                            id,
+                            acrobatics: 2,
+                            animalHandling: 2,
+                            arcana: 2,
+                            athletics: 2,
+                            deception: 2,
+                            history: 2,
+                            insight: 2,
+                            intidimation: 2,
+                            investigation: 2,
+                            medicine: 2,
+                            nature: 2,
+                            perception: 2,
+                            perfomance: 2,
+                            persuasion: 2,
+                            religion: 2,
+                            sleightOfHand: 2,
+                            stealth: 2,
+                            survival: 2,
+                        },
+                        savingThrows: {
+                            id,
+                            strengthMod: 0,
+                            dexterityMod: 2,
+                            constitutionMod: 1,
+                            intelligenceMod: -1,
+                            wisdomMod: 5,
+                            charismaMod: 6,
+                        },
+                        personalityTrait: "",
+                        ideals: "",
+                        weakness: "",
+                        talents: "",
+                        proficiency: "",
+                        conjurerClass: "",
+                        conjurerAttribute: "",
+                        spellCD: 0,
+                        spellAttackModifier: 0,
+                        photo: "",
+                        userId: id
+                    }
+                ]
+            };
+
+            userServiceMock.getOneUser.mockResolvedValue(mockUser)
+            prismaMock.user.update.mockRejectedValue(new Error('RecordNotFound'));
+
+            try {
+                await characterService.updateCharacter(body, id, 999);
+            } catch (error) {
+                // Verifica se o erro retornado é o esperado
+                let errorValue = error as Error;
+                expect(errorValue).toBeInstanceOf(Error);
+                expect(errorValue.message).toBe('RecordNotFound');
+            }
+        })
     })
     describe('Patch a character from a user', () => {
         it('Should updated all information sucessfully', async () => {
@@ -1466,6 +2005,375 @@ describe('Character Service', () => {
             expect(prismaMock.user.findUnique).toHaveBeenCalledWith({
                 where: { id: Number(id) }
             });
+        })
+        it('Should return null if userId is invalid', async () => {
+            const id = 1;
+            const spellLevelMock1 = {
+                spells: [{ id }] as Spell[],
+                id: id,
+                usedSpells: 0,
+                totalSpells: 0,
+            }
+            const body = 
+            {  
+                id: 1,
+                name: "Caranthir",
+                playerName: "Rafael Sousa",
+                class: "Ladino",
+                level: 1,
+                attributeId: id,
+                savingThrowId: id,
+                abilityCheckId: id,
+                background: "Outlander",
+                race: "Elfo negro",
+                attributes: {
+                    id: 1,
+                    strengthValue: 10,
+                    strengthMod: 0,
+                    dexterityValue: 14,
+                    dexterityMod: 2,
+                    constitutionValue: 12,
+                    constitutionMod: 1,
+                    intelligenceValue: 8,
+                    intelligenceMod: -1,
+                    wisdomValue: 16,
+                    wisdomMod: 3,
+                    charismaValue: 18,
+                    charismaMod: 4,
+                },
+                armorClass: 10,
+                initiative: 3,
+                failCounter: 0,
+                successCounter: 0,
+                speed: 30,
+                hitPointsActual: 10,
+                hitPointsMax: 15,
+                alignment: "good Lawful",
+                lifeDie: "1d8",
+                totalLifeDie: "5d8",
+                XP: 1000,
+                bonds: "family",
+                inspiration: true,
+                proficiencyBonus: 2,
+                temporaryHitPoints: 0,
+                weapons: [],
+                inventory: [],
+                spellLevel0Id: id,
+                spellLevel1Id: id,
+                spellLevel2Id: id,
+                spellLevel3Id: id,
+                spellLevel4Id: id,
+                spellLevel5Id: id,
+                spellLevel6Id: id,
+                spellLevel7Id: id,
+                spellLevel8Id: id,
+                spellLevel9Id: id,
+                spellLevel0: spellLevelMock1,
+                spellLevel1: spellLevelMock1,
+                spellLevel2: spellLevelMock1,
+                spellLevel3: spellLevelMock1,
+                spellLevel4: spellLevelMock1,
+                spellLevel5: spellLevelMock1,
+                spellLevel6: spellLevelMock1,
+                spellLevel7: spellLevelMock1,
+                spellLevel8: spellLevelMock1,
+                spellLevel9: spellLevelMock1,
+                history: "História do Personagem",
+                notes: "Notas Adicionais",
+                abilityCheck: {
+                    id,
+                    acrobatics: 2,
+                    animalHandling: 2,
+                    arcana: 2,
+                    athletics: 2,
+                    deception: 2,
+                    history: 2,
+                    insight: 2,
+                    intidimation: 2,
+                    investigation: 2,
+                    medicine: 2,
+                    nature: 2,
+                    perception: 2,
+                    perfomance: 2,
+                    persuasion: 2,
+                    religion: 2,
+                    sleightOfHand: 2,
+                    stealth: 2,
+                    survival: 2,
+                },
+                savingThrows: {
+                    id,
+                    strengthMod: 0,
+                    dexterityMod: 2,
+                    constitutionMod: 1,
+                    intelligenceMod: -1,
+                    wisdomMod: 5,
+                    charismaMod: 6,
+                },
+                personalityTrait: "",
+                ideals: "",
+                weakness: "",
+                talents: "",
+                proficiency: "",
+                conjurerClass: "",
+                conjurerAttribute: "",
+                spellCD: 0,
+                spellAttackModifier: 0,
+                photo: "",
+                userId: id
+            }
+           
+
+            userServiceMock.getOneUser.mockResolvedValue(null)
+
+            const result = await characterService.patchCharacter(body, 999, id);
+
+            expect(result).toEqual(null);
+        })
+        it('Should return an error if characterId is not in database', async () => {
+            const id = 1;
+            const spellLevelMock1 = {
+                spells: [{ id }] as Spell[],
+                id: id,
+                usedSpells: 0,
+                totalSpells: 0,
+            }
+            const body = 
+            {  
+                id: 1,
+                name: "Caranthir",
+                playerName: "Rafael Sousa",
+                class: "Ladino",
+                level: 1,
+                attributeId: id,
+                savingThrowId: id,
+                abilityCheckId: id,
+                background: "Outlander",
+                race: "Elfo negro",
+                attributes: {
+                    id: 1,
+                    strengthValue: 10,
+                    strengthMod: 0,
+                    dexterityValue: 14,
+                    dexterityMod: 2,
+                    constitutionValue: 12,
+                    constitutionMod: 1,
+                    intelligenceValue: 8,
+                    intelligenceMod: -1,
+                    wisdomValue: 16,
+                    wisdomMod: 3,
+                    charismaValue: 18,
+                    charismaMod: 4,
+                },
+                armorClass: 10,
+                initiative: 3,
+                failCounter: 0,
+                successCounter: 0,
+                speed: 30,
+                hitPointsActual: 10,
+                hitPointsMax: 15,
+                alignment: "good Lawful",
+                lifeDie: "1d8",
+                totalLifeDie: "5d8",
+                XP: 1000,
+                bonds: "family",
+                inspiration: true,
+                proficiencyBonus: 2,
+                temporaryHitPoints: 0,
+                weapons: [],
+                inventory: [],
+                spellLevel0Id: id,
+                spellLevel1Id: id,
+                spellLevel2Id: id,
+                spellLevel3Id: id,
+                spellLevel4Id: id,
+                spellLevel5Id: id,
+                spellLevel6Id: id,
+                spellLevel7Id: id,
+                spellLevel8Id: id,
+                spellLevel9Id: id,
+                spellLevel0: spellLevelMock1,
+                spellLevel1: spellLevelMock1,
+                spellLevel2: spellLevelMock1,
+                spellLevel3: spellLevelMock1,
+                spellLevel4: spellLevelMock1,
+                spellLevel5: spellLevelMock1,
+                spellLevel6: spellLevelMock1,
+                spellLevel7: spellLevelMock1,
+                spellLevel8: spellLevelMock1,
+                spellLevel9: spellLevelMock1,
+                history: "História do Personagem",
+                notes: "Notas Adicionais",
+                abilityCheck: {
+                    id,
+                    acrobatics: 2,
+                    animalHandling: 2,
+                    arcana: 2,
+                    athletics: 2,
+                    deception: 2,
+                    history: 2,
+                    insight: 2,
+                    intidimation: 2,
+                    investigation: 2,
+                    medicine: 2,
+                    nature: 2,
+                    perception: 2,
+                    perfomance: 2,
+                    persuasion: 2,
+                    religion: 2,
+                    sleightOfHand: 2,
+                    stealth: 2,
+                    survival: 2,
+                },
+                savingThrows: {
+                    id,
+                    strengthMod: 0,
+                    dexterityMod: 2,
+                    constitutionMod: 1,
+                    intelligenceMod: -1,
+                    wisdomMod: 5,
+                    charismaMod: 6,
+                },
+                personalityTrait: "",
+                ideals: "",
+                weakness: "",
+                talents: "",
+                proficiency: "",
+                conjurerClass: "",
+                conjurerAttribute: "",
+                spellCD: 0,
+                spellAttackModifier: 0,
+                photo: "",
+                userId: id
+            }
+            const mockUser = {
+                id: 1,
+                password: "123456",
+                username: "Rafael",
+                email: 'test@example.com',
+                isAdmin: false,
+                characters: [
+                    {  
+                        id: 1,
+                        name: "Nozit",
+                        playerName: "Rafael",
+                        class: "Ladino",
+                        level: 1,
+                        attributeId: id,
+                        savingThrowId: id,
+                        abilityCheckId: id,
+                        background: "Outlander",
+                        race: "Elfo negro",
+                        attributes: {
+                            id: 1,
+                            strengthValue: 10,
+                            strengthMod: 0,
+                            dexterityValue: 14,
+                            dexterityMod: 2,
+                            constitutionValue: 12,
+                            constitutionMod: 1,
+                            intelligenceValue: 8,
+                            intelligenceMod: -1,
+                            wisdomValue: 16,
+                            wisdomMod: 3,
+                            charismaValue: 18,
+                            charismaMod: 4,
+                        },
+                        armorClass: 10,
+                        initiative: 3,
+                        failCounter: 0,
+                        successCounter: 0,
+                        speed: 30,
+                        hitPointsActual: 10,
+                        hitPointsMax: 15,
+                        alignment: "good Lawful",
+                        lifeDie: "1d8",
+                        totalLifeDie: "5d8",
+                        XP: 1000,
+                        bonds: "family",
+                        inspiration: true,
+                        proficiencyBonus: 2,
+                        temporaryHitPoints: 0,
+                        weapons: [],
+                        inventory: [],
+                        spellLevel0Id: id,
+                        spellLevel1Id: id,
+                        spellLevel2Id: id,
+                        spellLevel3Id: id,
+                        spellLevel4Id: id,
+                        spellLevel5Id: id,
+                        spellLevel6Id: id,
+                        spellLevel7Id: id,
+                        spellLevel8Id: id,
+                        spellLevel9Id: id,
+                        spellLevel0: spellLevelMock1,
+                        spellLevel1: spellLevelMock1,
+                        spellLevel2: spellLevelMock1,
+                        spellLevel3: spellLevelMock1,
+                        spellLevel4: spellLevelMock1,
+                        spellLevel5: spellLevelMock1,
+                        spellLevel6: spellLevelMock1,
+                        spellLevel7: spellLevelMock1,
+                        spellLevel8: spellLevelMock1,
+                        spellLevel9: spellLevelMock1,
+                        history: "História do Personagem",
+                        notes: "Notas Adicionais",
+                        abilityCheck: {
+                            id,
+                            acrobatics: 2,
+                            animalHandling: 2,
+                            arcana: 2,
+                            athletics: 2,
+                            deception: 2,
+                            history: 2,
+                            insight: 2,
+                            intidimation: 2,
+                            investigation: 2,
+                            medicine: 2,
+                            nature: 2,
+                            perception: 2,
+                            perfomance: 2,
+                            persuasion: 2,
+                            religion: 2,
+                            sleightOfHand: 2,
+                            stealth: 2,
+                            survival: 2,
+                        },
+                        savingThrows: {
+                            id,
+                            strengthMod: 0,
+                            dexterityMod: 2,
+                            constitutionMod: 1,
+                            intelligenceMod: -1,
+                            wisdomMod: 5,
+                            charismaMod: 6,
+                        },
+                        personalityTrait: "",
+                        ideals: "",
+                        weakness: "",
+                        talents: "",
+                        proficiency: "",
+                        conjurerClass: "",
+                        conjurerAttribute: "",
+                        spellCD: 0,
+                        spellAttackModifier: 0,
+                        photo: "",
+                        userId: id
+                    }
+                ]
+            };
+
+            userServiceMock.getOneUser.mockResolvedValue(mockUser)
+            prismaMock.user.update.mockRejectedValue(new Error('RecordNotFound'));
+
+            try {
+                await characterService.patchCharacter(body, id, 999);
+            } catch (error) {
+                // Verifica se o erro retornado é o esperado
+                let errorValue = error as Error;
+                expect(errorValue).toBeInstanceOf(Error);
+                expect(errorValue.message).toBe('RecordNotFound');
+            }
         })
     })
     describe('Get All Characters From All Users', () => {

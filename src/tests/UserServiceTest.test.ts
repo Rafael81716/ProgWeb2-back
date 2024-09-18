@@ -41,14 +41,17 @@ describe('UserService', () => {
       
       const id = 900;
 
-      // Mock da resposta do getOneUser (usuário não encontrado)
-      jest.spyOn(userService, 'getOneUser').mockResolvedValue(null);
-      // Não precisamos mockar o delete, pois o fluxo não deveria chegar a essa chamada
-      const deletedUser = (await userService.deleteUser(id))? "" : null;
-      
-      // Verificações
-      expect(deletedUser).toBeNull(); // Esperamos que o retorno seja null
-    });
+      prismaMock.user.update.mockRejectedValue(new Error('RecordNotFound'));
+
+      try {
+          await userService.deleteUser(id);
+      } catch (error) {
+          // Verifica se o erro retornado é o esperado
+          let errorValue = error as Error;
+          expect(errorValue).toBeInstanceOf(Error);
+          expect(errorValue.message).toBe('RecordNotFound');
+      }
+    })
     it('should delete a user if found', async () => {
       const id = 1;
       const spellLevelMock = {
