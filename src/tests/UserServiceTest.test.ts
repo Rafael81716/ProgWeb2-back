@@ -799,10 +799,11 @@ describe('UserService', () => {
     const updatedUser = await userService.updateUser(body, id);
 
     expect(updatedUser).toEqual(mockUpdatedUser);
-    expect(updatedUser.password).toEqual('1234567')
+    expect(updatedUser.password).toEqual('1234567');
+
     jest.resetAllMocks();
     })
-    /*it('should return null if user id does not exist', async () => {
+    it('should return null if user id does not exist', async () => {
       const id = 999;
       const spellLevelMock1 = {
         spells: [{ id }] as Spell[],
@@ -811,7 +812,7 @@ describe('UserService', () => {
         totalSpells: 0,
     }
       const body = {
-        id: 999,
+        id: 1,
         email: 'test@example.com',
         password: '123456',
         isAdmin: false,
@@ -926,15 +927,21 @@ describe('UserService', () => {
             },
           ],
     };
-      prismaMock.user.update.mockResolvedValue(null);
-      const updatedUser = await userService.updateUser(body, id);
+      // Simula o erro "RecordNotFound" do Prisma
+    prismaMock.user.update.mockRejectedValue(new Error('RecordNotFound'));
 
-      expect(updatedUser).toEqual(null);
-      expect(updatedUser.password).toEqual('1234567')
-    })*/
+    try {
+        await userService.updateUser(body, id);
+    } catch (error) {
+        // Verifica se o erro retornado é o esperado
+        let errorValue = error as Error;
+        expect(errorValue).toBeInstanceOf(Error);
+        expect(errorValue.message).toBe('RecordNotFound');
+    }
+    })
   });
   describe('Update some information of a character', () => {
-    it('should update all information about a user',async () => {
+    it('should update some information about a user',async () => {
       const id = 1;
       const spellLevelMock1 = {
           spells: [{ id }] as Spell[],
@@ -1180,6 +1187,35 @@ describe('UserService', () => {
       expect(updatedUser.email).toEqual('test1@example.com') 
       expect(updatedUser.username).toEqual('testuser1') 
     
+      jest.resetAllMocks();
+    })
+
+    it('should return null if user id does not exist', async () => {
+      const id = 999;
+      const spellLevelMock1 = {
+        spells: [{ id }] as Spell[],
+        id: id,
+        usedSpells: 0,
+        totalSpells: 0,
+    }
+      const body = {
+        id: 1,
+        email: 'test@example.com',
+        password: '123456',
+        isAdmin: false,
+        username: 'testuser',
+    };
+      // Simula o erro "RecordNotFound" do Prisma
+    prismaMock.user.update.mockRejectedValue(new Error('RecordNotFound'));
+
+    try {
+        await userService.updateUser(body, id);
+    } catch (error) {
+        // Verifica se o erro retornado é o esperado
+        let errorValue = error as Error;
+        expect(errorValue).toBeInstanceOf(Error);
+        expect(errorValue.message).toBe('RecordNotFound');
+    }
     })
   })
 });
