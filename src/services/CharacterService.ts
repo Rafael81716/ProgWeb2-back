@@ -1041,9 +1041,9 @@ export class CharacterService {
     async getCharactersByName(name: string, userId: Number){ 
         const user = await this.userService.getOneUser(Number(userId));
         if(user !== null){
-            return user?.characters.filter((item) => {
-                item.name === name
-            })
+            return user?.characters.filter((item) => 
+                item.name == name
+            )
         }else{
             return null;
         }

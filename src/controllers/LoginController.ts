@@ -16,7 +16,7 @@ export class LoginController{
             const token = jsonwebtoken.sign(
                 { user: JSON.stringify(userInfo) },
                 process.env.JWT_SECRET_KEY??'',
-                { expiresIn: '60m' }
+                { expiresIn: '7d' }
             );
 
             return response.status(200).json({data: { userInfo, token }})

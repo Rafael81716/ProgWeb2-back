@@ -12,6 +12,6 @@ characterRouter.delete('/user/:userId/character/:characterId', userController.de
 characterRouter.put('/user/:userId/character/:characterId', userController.updateCharacter);
 characterRouter.patch('/user/:userId/character/:characterId', userController.patchCharacter);
 characterRouter.get('/admin/', userController.getAllCharactersFromAllUsers);
-characterRouter.get('user/:userId/characters/:name', userController.getCharactersByName);
+characterRouter.get('/user/:userId/characters/:name', userController.getCharactersByName);
 
 export { characterRouter };
