@@ -135,4 +135,21 @@ export class CharacterController {
             return response.status(500).json({ error: "An error has ocurred while fetching the user." });
         }
     } 
+    async getCharactersByName(request: Request, response: Response){
+        const { userId, name } = request.params;
+
+        try{
+            const characterService = new CharacterService();
+            const responseOutput = await characterService.getCharactersByName(name, Number(userId))
+            
+            if(responseOutput != null){
+                return response.status(200).json(responseOutput);
+            }else{
+                return response.status(404).json({error: "Character Name does not exist"});
+            }
+        }catch(error){
+            console.error('Error creating User: ', error);
+            return response.status(500).json({ error: "An error has ocurred while fetching the user." });
+        }
+    }
 }

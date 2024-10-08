@@ -2,6 +2,7 @@ import { PrismaClient } from "@prisma/client";
 import { UserService } from "./UserService";
 
 export class CharacterService {
+    
     prismaClient = new PrismaClient();
     userService = new UserService();
 
@@ -1037,5 +1038,14 @@ export class CharacterService {
         
         return characters;
     }
-    
+    async getCharactersByName(name: string, userId: Number){ 
+        const user = await this.userService.getOneUser(Number(userId));
+        if(user !== null){
+            return user?.characters.filter((item) => {
+                item.name === name
+            })
+        }else{
+            return null;
+        }
+    }
 }
