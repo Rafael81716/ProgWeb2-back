@@ -10,7 +10,6 @@ export class CharacterService {
         const { 
             name,
             playerName,
-            charClass,
             level,
             background,
             race,
@@ -57,8 +56,7 @@ export class CharacterService {
             spellLevel8,
             spellLevel9
         } = body
-
-
+        const charClass = body['class'];
         const user = await this.prismaClient.user.findUnique({
             where: { id: Number(id) }
         })
@@ -370,7 +368,6 @@ export class CharacterService {
         const { 
             name,
             playerName,
-            charClass,
             level,
             background,
             race,
@@ -417,6 +414,7 @@ export class CharacterService {
             spellLevel8,
             spellLevel9
         } = body
+        const charClass = body['class'];
         
         const user = await this.userService.getOneUser(userId  as number)
         if(user){
@@ -703,7 +701,6 @@ export class CharacterService {
         const { 
             name,
             playerName,
-            charClass,
             level,
             background,
             race,
@@ -750,7 +747,7 @@ export class CharacterService {
             spellLevel8,
             spellLevel9
         } = body
-        
+        const charClass = body['class'];
         const user = await this.userService.getOneUser(userId  as number)
         if(user){
             const character =  await this.prismaClient.character.update({
