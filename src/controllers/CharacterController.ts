@@ -20,7 +20,7 @@ export class CharacterController {
                 }else{
                     console.log(validated.error.message)
                     return response.status(400).json({ error: validated.error.message })
-            }
+                }
         }catch(error){
             console.error('Error creating User: ', error);
             return response.status(500).json({ error: "An error has ocurred while fetching the user." });

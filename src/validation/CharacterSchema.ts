@@ -5,7 +5,7 @@ export const characterSchema = Joi.object({
     name: Joi.string()
         .required(),
     playerName: Joi.string().required(),
-    charClass: Joi.string()
+    class: Joi.string()
         .required(),
     level: Joi.number()
         .min(1)
@@ -226,27 +226,27 @@ export const characterSchema = Joi.object({
             })
         ) 
     }),
-    history: Joi.string(),
-    notes: Joi.string(),
-    personalityTrait: Joi.string(),
-    bonds: Joi.string(),
-    conjurerAttribute: Joi.string(),
-    conjurerClass: Joi.string(),
-    ideals: Joi.string(),
+    history: Joi.string().allow(''),
+    notes: Joi.string().allow(''),
+    personalityTrait: Joi.string().allow(''),
+    bonds: Joi.string().allow(''),
+    conjurerAttribute: Joi.string().allow(''),
+    conjurerClass: Joi.string().allow(''),
+    ideals: Joi.string().allow(''),
     inspiration: Joi.boolean(),
-    photo: Joi.string(),
-    proficiency: Joi.string(),
+    photo: Joi.string().allow(''),
+    proficiency: Joi.string().allow(''),
     spellAttackModifier: Joi.number(),
     temporaryHitPoints: Joi.number(),
-    talents: Joi.string(),
-    weakness: Joi.string(),
+    talents: Joi.string().allow(''),
+    weakness: Joi.string().allow(''),
     spellCD: Joi.number()
 })
 
 export const characterSchemaPatch = Joi.object({
     name: Joi.string(),
     playerName: Joi.string(),
-    charClass: Joi.string(),
+    class: Joi.string(),
     level: Joi.number()
         .min(1)
         .max(20),
@@ -453,20 +453,20 @@ export const characterSchemaPatch = Joi.object({
             })
         ) 
     }),
-    history: Joi.string(),
-    notes: Joi.string(),
-    personalityTrait: Joi.string(),
-    bonds: Joi.string(),
-    conjurerAttribute: Joi.string(),
-    conjurerClass: Joi.string(),
-    ideals: Joi.string(),
+    history: Joi.string().allow(''),
+    notes: Joi.string().allow(''),
+    personalityTrait: Joi.string().allow(''),
+    bonds: Joi.string().allow(''),
+    conjurerAttribute: Joi.string().allow(''),
+    conjurerClass: Joi.string().allow(''),
+    ideals: Joi.string().allow(''),
     inspiration: Joi.boolean(),
-    photo: Joi.string(),
-    proficiency: Joi.string(),
+    photo: Joi.string().allow(''),
+    proficiency: Joi.string().allow(''),
     spellAttackModifier: Joi.number(),
     temporaryHitPoints: Joi.number(),
-    talents: Joi.string(),
-    weakness: Joi.string(),
+    talents: Joi.string().allow(''),
+    weakness: Joi.string().allow(''),
     spellCD: Joi.number()
 })
  
